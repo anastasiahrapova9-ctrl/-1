@@ -1,0 +1,2809 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Лапа помощи - Ветеринарная клиника</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐾</text></svg>">
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box;font-family:'Montserrat','Segoe UI',Tahoma,Geneva,Verdana,sans-serif}
+        :root{
+            --primary-color:#81C784;--secondary-color:#A5D6A7;--accent-color:#4A90E2;--blue-color:#1dbe96;
+            --light-blue:#E8F4F8;--light-color:#F5F9F7;--dark-text:#3B6D6;--white:#FFFFFF;--success-color:#68B684;
+            --gradient-primary:linear-gradient(135deg,var(--primary-color),var(--secondary-color));
+            --gradient-blue:linear-gradient(135deg,var(--blue-color),var(--accent-color));
+            --shadow-light:0 4px 20px rgba(0,0,0,0.08);--shadow-medium:0 8px 30px rgba(0,0,0,0.12);
+            --shadow-heavy:0 15px 40px rgba(0,0,0,0.15);--border-radius:16px;
+            --transition:all 0.4s cubic-bezier(0.175,0.885,0.32,1.275)
+        }
+        html{scroll-behavior:smooth;font-size:16px}
+        body{line-height:1.7;color:var(--dark-text);background-color:var(--light-color);overflow-x:hidden}
+        h1,h2,h3,h4,h5,h6{font-weight:700;line-height:1.3;margin-bottom:1rem}
+        h1{font-size:3.5rem;letter-spacing:-0.5px}
+        h2{font-size:2.8rem;position:relative;display:inline-block}
+        h3{font-size:1.8rem}
+        p{margin-bottom:1.5rem;font-size:1.1rem}
+        .btn{display:inline-flex;align-items:center;justify-content:center;padding:16px 32px;border-radius:50px;
+            font-weight:600;font-size:1.1rem;text-decoration:none;border:none;cursor:pointer;transition:var(--transition);
+            position:relative;overflow:hidden;z-index:1}
+        .btn::before{content:'';position:absolute;top:0;left:0;width:0%;height:100%;background:rgba(255,255,255,0.2);
+            transition:all 0.4s ease;z-index:-1}
+        .btn:hover::before{width:100%}
+        .btn-primary{background:var(--gradient-blue);color:var(--white);box-shadow:var(--shadow-medium)}
+        .btn-primary:hover{transform:translateY(-5px);box-shadow:var(--shadow-heavy)}
+        .btn-secondary{background:transparent;color:var(--white);border:2px solid var(--white)}
+        .btn-secondary:hover{background:var(--white);color:var(--primary-color);transform:translateY(-5px)}
+        .btn-large{padding:18px 40px;font-size:1.2rem}
+        header{background:var(--gradient-primary);padding:15px 0;position:fixed;width:100%;top:0;z-index:2000;
+            box-shadow:var(--shadow-medium);transition:var(--transition);backdrop-filter:blur(100px);
+            background:rgba(30,107,82,0.95)}
+        header.scrolled{padding:10px 0;background:rgba(20,80,60,0.98);box-shadow:0 5px 25px rgba(0,0,0,0.15)}
+        .header-container{max-width:1400px;margin:0 auto;padding:0 30px;display:flex;justify-content:space-between;align-items:center}
+        .logo{display:flex;align-items:center;gap:15px;text-decoration:none;transition:var(--transition)}
+        .logo:hover{transform:translateY(-2px)}
+        .logo-icon{width:65px;height:65px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+            box-shadow:var(--shadow-medium);overflow:hidden;background:var(--gradient-blue);transition:var(--transition);position:relative}
+        .logo-icon:hover{transform:scale(1.05);box-shadow:0 8px 25px rgba(74,144,226,0.4)}
+        .logo-paw{font-size:2.2rem;color:white;display:flex;align-items:center;justify-content:center;width:100%;height:100%}
+        .logo-text{display:flex;flex-direction:column}
+        .logo-title{font-size:1.9rem;font-weight:800;color:var(--white);line-height:1;letter-spacing:-0.5px}
+        .logo-subtitle{font-size:0.85rem;color:var(--light-blue);font-weight:500;letter-spacing:1.5px;margin-top:3px}
+        nav ul{display:flex;list-style:none;gap:25px}
+        nav a{color:var(--white);text-decoration:none;font-weight:600;padding:10px 20px;border-radius:30px;
+            transition:var(--transition);position:relative;font-size:1.05rem}
+        nav a::before{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:0;height:2px;
+            background:var(--accent-color);transition:var(--transition)}
+        nav a::after{content:'';position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(255,255,255,0.1);
+            border-radius:30px;opacity:0;transition:var(--transition);z-index:-1}
+        nav a:hover::before,nav a.active::before{width:70%}
+        nav a:hover::after,nav a.active::after{opacity:1}
+        nav a:hover{color:var(--accent-color);transform:translateY(-2px)}
+        .header-actions{display:flex;align-items:center;gap:20px}
+        .phone-header{background:rgba(255,255,255,0.15);padding:12px 24px;border-radius:30px;color:var(--white);
+            font-weight:700;text-decoration:none;transition:var(--transition);display:flex;align-items:center;gap:10px;
+            backdrop-filter:blur(5px);border:1px solid rgba(255,255,255,0.2)}
+        .phone-header:hover{background:rgba(255,255,255,0.25);transform:translateY(-2px);box-shadow:0 5px 15px rgba(0,0,0,0.1)}
+        .cart-icon{position:relative;background:rgba(255,255,255,0.15);width:45px;height:45px;border-radius:50%;
+            display:flex;align-items:center;justify-content:center;color:var(--white);font-size:1.3rem;cursor:pointer;
+            transition:var(--transition);border:1px solid rgba(255,255,255,0.2)}
+        .cart-icon:hover{background:rgba(255,255,255,0.25);transform:translateY(-2px)}
+        .cart-count{position:absolute;top:-5px;right:-5px;background:var(--accent-color);color:white;border-radius:50%;
+            width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700}
+        .mobile-menu-btn{display:none;background:none;border:none;color:var(--white);font-size:1.8rem;cursor:pointer;
+            width:45px;height:45px;border-radius:50%;align-items:center;justify-content:center;transition:var(--transition)}
+        .mobile-menu-btn:hover{background:rgba(255,255,255,0.1)}
+        .hero{background:var(--gradient-primary);color:var(--white);padding:160px 20px 100px;position:relative;overflow:hidden}
+        .hero::before{content:'';position:absolute;top:0;left:0;width:100%;height:100%;
+            background:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23ffffff" fill-opacity="0.05" d="M0,96L48,112C96,128,192,160,288,186.7C384,213,480,235,576,213.3C672,192,768,128,864,128C960,128,1056,192,1152,192C1248,192,1344,128,1392,96L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
+            background-size:cover;background-position:center}
+        .hero-container{max-width:1400px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;position:relative;z-index:1}
+        .hero-content h1{font-size:3.8rem;margin-bottom:25px;line-height:1.2}
+        .hero-content p{font-size:1.3rem;margin-bottom:40px;opacity:0.9;max-width:90%}
+        .hero-actions{display:flex;gap:20px;flex-wrap:wrap}
+        .hero-image{position:relative;display:flex;justify-content:center;align-items:center}
+        .image-container{width:100%;max-width:500px;height:500px;border-radius:30% 70% 70% 30%/30% 30% 70% 70%;
+            background:var(--gradient-blue);display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow-heavy);
+            animation:morphing 15s infinite ease-in-out;overflow:hidden}
+        @keyframes morphing{0%{border-radius:30% 70% 70% 30%/30% 30% 70% 70%}25%{border-radius:58% 42% 75% 25%/76% 46% 54% 24%}
+            50%{border-radius:50% 50% 33% 67%/55% 27% 73% 45%}75%{border-radius:33% 67% 58% 42%/63% 68% 32% 37%}
+            100%{border-radius:30% 70% 70% 30%/30% 30% 70% 70%}}
+        .hero-animals{width:100%;height:100%;object-fit:cover;border-radius:inherit}
+        .hero-stats{display:flex;gap:40px;margin-top:50px;flex-wrap:wrap}
+        .stat-item{display:flex;flex-direction:column}
+        .stat-number{font-size:2.5rem;font-weight:800;color:var(--accent-color);line-height:1}
+        .stat-label{font-size:1rem;opacity:0.8}
+        .section{padding:100px 20px}
+        .section-header{text-align:center;margin-bottom:70px}
+        .section-title{font-size:2.8rem;color:var(--primary-color);margin-bottom:20px;display:inline-block}
+        .section-title::after{content:'';position:absolute;bottom:-10px;left:50%;transform:translateX(-50%);width:80px;
+            height:4px;background:var(--gradient-blue);border-radius:2px}
+        .section-subtitle{font-size:1.2rem;color:var(--secondary-color);max-width:700px;margin:0 auto}
+        .container{max-width:1400px;margin:0 auto}
+        .services{background-color:var(--white)}
+        .services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(350px,1fr));gap:30px;margin-top:40px}
+        .service-card{background:var(--white);padding:40px 30px;border-radius:var(--border-radius);text-align:center;
+            box-shadow:var(--shadow-light);transition:var(--transition);position:relative;overflow:hidden;z-index:1;border:1px solid var(--light-blue);
+            cursor: pointer;}
+        .service-card::before{content:'';position:absolute;top:0;left:0;width:100%;height:0;background:var(--gradient-blue);transition:var(--transition);z-index:-1}
+        .service-card:hover::before{height:100%}
+        .service-card:hover{transform:translateY(-15px);box-shadow:var(--shadow-heavy);color:var(--white)}
+        .service-card:hover .service-icon{background:var(--white);color:var(--blue-color);transform:scale(1.1)}
+        .service-card:hover h3,.service-card:hover p{color:var(--white)}
+        .service-icon{width:90px;height:90px;background:var(--light-blue);border-radius:50%;display:flex;align-items:center;
+            justify-content:center;margin:0 auto 25px;font-size:2.5rem;transition:var(--transition);color:var(--blue-color)}
+        .service-card h3{font-size:1.5rem;margin-bottom:15px;color:var(--primary-color);transition:var(--transition)}
+        .service-card p{font-size:1rem;color:var(--dark-text);transition:var(--transition)}
+        .service-price{display:inline-block;margin-top:15px;font-weight:700;color:var(--blue-color);font-size:1.2rem}
+        .about{background-color:var(--light-blue)}
+        .about-content{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+        .about-text h3{font-size:2rem;margin-bottom:25px;color:var(--primary-color)}
+        .about-text p{margin-bottom:25px;line-height:1.8}
+        .about-highlights{margin-top:30px;display:grid;grid-template-columns:1fr 1fr;gap:20px}
+        .highlight-item{display:flex;gap:15px;align-items:flex-start}
+        .highlight-icon{width:50px;height:50px;background:var(--gradient-blue);border-radius:50%;display:flex;align-items:center;
+            justify-content:center;font-size:1.5rem;flex-shrink:0;color:white}
+        .highlight-text h4{font-size:1.1rem;margin-bottom:5px;color:var(--primary-color)}
+        .highlight-text p{font-size:1rem;color:var(--dark-text)}
+        .about-image{position:relative;display:flex;justify-content:center;align-items:center}
+        .about-img-container{width:100%;max-width:500px;height:500px;border-radius:var(--border-radius);overflow:hidden;box-shadow:var(--shadow-heavy)}
+        .about-animals{width:100%;height:100%;object-fit:cover}
+        
+        /* НОВЫЕ СТИЛИ: Блог/Новости */
+        .blog{background-color:var(--white)}
+        .blog-filters{display:flex;justify-content:center;gap:15px;margin-bottom:40px;flex-wrap:wrap}
+        .blog-filter-btn{padding:10px 25px;background:var(--light-blue);border:none;border-radius:30px;
+            cursor:pointer;transition:var(--transition);font-weight:600;color:var(--dark-text)}
+        .blog-filter-btn:hover{background:var(--secondary-color);color:var(--white)}
+        .blog-filter-btn.active{background:var(--gradient-blue);color:var(--white)}
+        .blog-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(350px,1fr));gap:30px;margin-top:20px}
+        .blog-post{background:var(--white);border-radius:var(--border-radius);overflow:hidden;
+            box-shadow:var(--shadow-light);transition:var(--transition);border:1px solid var(--light-blue)}
+        .blog-post:hover{transform:translateY(-10px);box-shadow:var(--shadow-heavy)}
+        .blog-post-image{width:100%;height:200px;object-fit:cover}
+        .blog-post-content{padding:25px}
+        .blog-post-meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px;font-size:0.9rem;color:var(--secondary-color)}
+        .blog-post-date{display:flex;align-items:center;gap:5px}
+        .blog-post-category{background:var(--light-blue);color:var(--blue-color);padding:5px 12px;border-radius:20px;font-size:0.8rem;font-weight:600}
+        .blog-post-title{font-size:1.3rem;margin-bottom:15px;color:var(--primary-color);line-height:1.4}
+        .blog-post-text{font-size:1rem;color:var(--dark-text);margin-bottom:20px;line-height:1.6}
+        .blog-post-text img{max-width:100%;height:auto;border-radius:8px;margin:10px 0}
+        .blog-post-text video{max-width:100%;height:auto;border-radius:8px;margin:10px 0}
+        .blog-post-link{display:inline-flex;align-items:center;gap:8px;color:var(--blue-color);text-decoration:none;
+            font-weight:600;transition:var(--transition)}
+        .blog-post-link:hover{color:var(--accent-color);gap:12px}
+        .blog-post-attachments{margin-top:15px;display:flex;flex-wrap:wrap;gap:10px}
+        .blog-attachment{width:80px;height:80px;border-radius:8px;overflow:hidden;cursor:pointer;transition:var(--transition)}
+        .blog-attachment:hover{transform:scale(1.05);box-shadow:var(--shadow-medium)}
+        .blog-attachment img{width:100%;height:100%;object-fit:cover}
+        .blog-post-footer{display:flex;justify-content:space-between;align-items:center;margin-top:20px;padding-top:15px;border-top:1px solid var(--light-blue)}
+        .blog-post-stats{display:flex;gap:15px;color:var(--secondary-color);font-size:0.9rem}
+        .blog-post-stat{display:flex;align-items:center;gap:5px}
+        .blog-load-more{text-align:center;margin-top:50px}
+        .no-posts{text-align:center;padding:50px;color:var(--secondary-color);font-size:1.1rem}
+        
+        .team{background-color:var(--white)}
+        .team-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:30px;margin-top:40px}
+        .team-member{text-align:center;padding:30px 20px;border-radius:var(--border-radius);background:var(--white);
+            box-shadow:var(--shadow-light);transition:var(--transition);position:relative;overflow:hidden;border:1px solid var(--light-blue);
+            cursor: pointer;}
+        .team-member::before{content:'';position:absolute;top:0;left:0;width:100%;height:5px;background:var(--gradient-blue)}
+        .team-member:hover{transform:translateY(-10px);box-shadow:var(--shadow-heavy)}
+        .member-avatar{width:150px;height:150px;border-radius:50%;margin:0 auto 20px;background:var(--gradient-blue);display:flex;
+            align-items:center;justify-content:center;font-size:4rem;box-shadow:var(--shadow-medium);border:5px solid var(--light-blue);color:white;overflow:hidden}
+        .member-avatar img{width:100%;height:100%;object-fit:cover}
+        .team-member h4{font-size:1.4rem;margin-bottom:5px;color:var(--primary-color)}
+        .team-member .position{font-size:1rem;color:var(--secondary-color);font-weight:600;margin-bottom:15px}
+        .team-member .experience{display:inline-block;background:var(--light-blue);padding:5px 15px;border-radius:20px;
+            font-size:0.9rem;color:var(--blue-color);margin-bottom:15px}
+        .team-member p{font-size:0.95rem;color:var(--dark-text)}
+        .products{background-color:var(--light-blue)}
+        .products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:30px;margin-top:40px}
+        .product-card{background:var(--white);border-radius:var(--border-radius);overflow:hidden;box-shadow:var(--shadow-light);
+            transition:var(--transition);position:relative;border:1px solid var(--light-blue)}
+        .product-card:hover{transform:translateY(-10px);box-shadow:var(--shadow-heavy)}
+        .product-image{width:100%;height:200px;object-fit:cover}
+        .product-info{padding:20px}
+        .product-category{display:inline-block;background:var(--light-blue);color:var(--blue-color);padding:5px 12px;
+            border-radius:20px;font-size:0.8rem;font-weight:600;margin-bottom:10px}
+        .product-title{font-size:1.2rem;margin-bottom:10px;color:var(--primary-color)}
+        .product-description{font-size:0.9rem;color:var(--dark-text);margin-bottom:15px;min-height:60px}
+        .product-footer{display:flex;justify-content:space-between;align-items:center;margin-top:15px}
+        .product-price{font-weight:700;font-size:1.3rem;color:var(--blue-color)}
+        .add-to-cart{background:var(--gradient-blue);color:white;border:none;border-radius:50px;padding:8px 16px;
+            cursor:pointer;transition:var(--transition);font-weight:600;font-size:0.9rem;display:flex;align-items:center;gap:5px}
+        .add-to-cart:hover{transform:scale(1.05);box-shadow:var(--shadow-medium)}
+        .gallery{background-color:var(--light-blue)}
+        .gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px;margin-top:40px}
+        .gallery-item{border-radius:var(--border-radius);overflow:hidden;height:250px;position:relative;box-shadow:var(--shadow-light);transition:var(--transition)}
+        .gallery-item:hover{transform:scale(1.03);box-shadow:var(--shadow-heavy)}
+        .gallery-img{width:100%;height:100%;object-fit:cover}
+        .testimonials{background-color:var(--white)}
+        .testimonials-container{max-width:1000px;margin:0 auto;position:relative}
+        .testimonials-slider{overflow:hidden;position:relative}
+        .testimonials-track{display:flex;transition:transform 0.5s ease}
+        .testimonial{min-width:100%;padding:0 20px;box-sizing:border-box}
+        .testimonial-content{background:var(--light-blue);padding:40px;border-radius:var(--border-radius);box-shadow:var(--shadow-light);position:relative}
+        .testimonial-content::before{content:'"';position:absolute;top:20px;left:30px;font-size:5rem;color:var(--accent-color);opacity:0.3;line-height:1}
+        .testimonial-text{font-size:1.1rem;font-style:italic;margin-bottom:25px;position:relative;z-index:1;color:var(--dark-text)}
+        .testimonial-author{display:flex;align-items:center;gap:15px}
+        .author-avatar{width:60px;height:60px;border-radius:50%;background:var(--gradient-blue);display:flex;align-items:center;
+            justify-content:center;font-size:1.5rem;flex-shrink:0;color:white}
+        .author-info h4{margin-bottom:5px;font-size:1.1rem;color:var(--primary-color)}
+        .author-info p{margin:0;font-size:0.9rem;color:var(--secondary-color)}
+        .testimonials-nav{display:flex;justify-content:center;gap:15px;margin-top:30px}
+        .testimonial-dot{width:12px;height:12px;border-radius:50%;background:var(--accent-color);cursor:pointer;transition:var(--transition)}
+        .testimonial-dot.active{background:var(--blue-color);transform:scale(1.3)}
+        .faq{background-color:var(--light-blue)}
+        .faq-container{max-width:900px;margin:0 auto}
+        .faq-item{margin-bottom:20px;border-radius:var(--border-radius);overflow:hidden;box-shadow:var(--shadow-light)}
+        .faq-question{padding:25px 30px;background:var(--white);display:flex;justify-content:space-between;align-items:center;cursor:pointer;transition:var(--transition)}
+        .faq-question:hover{background:var(--blue-color);color:var(--white)}
+        .faq-question h3{margin:0;font-size:1.2rem}
+        .faq-icon{font-size:1.5rem;transition:var(--transition)}
+        .faq-answer{padding:0 30px;background:var(--white);max-height:0;overflow:hidden;transition:var(--transition)}
+        .faq-answer p{padding:20px 0;margin:0;color:var(--dark-text)}
+        .faq-item.active .faq-answer{max-height:500px}
+        .faq-item.active .faq-icon{transform:rotate(45deg)}
+        .contact{background:var(--gradient-primary);color:var(--white)}
+        .contact-wrapper{display:grid;grid-template-columns:1fr 1fr;gap:60px;margin-top:40px}
+        .contact-info{display:flex;flex-direction:column;gap:35px}
+        .contact-item{display:flex;gap:20px;align-items:flex-start}
+        .contact-icon{width:60px;height:60px;background:rgba(255,255,255,0.15);border-radius:50%;display:flex;align-items:center;
+            justify-content:center;font-size:1.8rem;flex-shrink:0;backdrop-filter:blur(5px)}
+        .contact-item h4{margin-bottom:10px;font-size:1.3rem}
+        .contact-item p{opacity:0.9;font-size:1.1rem;margin:0}
+        .contact-item a{color:var(--white);text-decoration:none;transition:var(--transition)}
+        .contact-item a:hover{color:var(--accent-color)}
+        .contact-form{background:rgba(255,255,255,0.1);padding:40px;border-radius:var(--border-radius);backdrop-filter:blur(10px);box-shadow:var(--shadow-light)}
+        .form-group{display:flex;flex-direction:column;margin-bottom:25px;position:relative}
+        .form-group label{margin-bottom:10px;font-weight:600;font-size:1.1rem}
+        .form-group input,.form-group select,.form-group textarea{padding:15px 20px;border:2px solid rgba(255,255,255,0.2);
+            border-radius:10px;background-color:rgba(255,255,255,0.1);color:var(--white);font-family:inherit;font-size:1rem;transition:var(--transition)}
+        .form-group input::placeholder,.form-group textarea::placeholder{color:rgba(255,255,255,0.6)}
+        .form-group input:focus,.form-group select:focus,.form-group textarea:focus{outline:none;background-color:rgba(255,255,255,0.15);border-color:var(--accent-color)}
+        .form-group textarea{resize:vertical;min-height:120px}
+        .submit-btn{width:100%;margin-top:10px}
+        .form-group.valid input,.form-group.valid select,.form-group.valid textarea{border-color:var(--success-color)!important}
+        .form-group.invalid input,.form-group.invalid select,.form-group.invalid textarea{border-color:#e74c3c!important}
+        .validation-message{font-size:0.85rem;margin-top:5px;min-height:18px}
+        .form-group.invalid .validation-message{color:#e74c3c}
+        .form-group.valid .validation-message{color:var(--success-color)}
+        .checkbox-group{display:flex;flex-direction:column;gap:12px}
+        .checkbox-label{display:flex;align-items:center;cursor:pointer;position:relative;padding-left:35px;font-size:1rem;user-select:none}
+        .checkbox-label input{position:absolute;opacity:0;cursor:pointer;height:0;width:0}
+        .checkmark{position:absolute;top:0;left:0;height:22px;width:22px;background-color:rgba(255,255,255,0.1);
+            border:2px solid rgba(255,255,255,0.2);border-radius:4px;transition:var(--transition)}
+        .checkbox-label:hover input~.checkmark{background-color:rgba(255,255,255,0.15)}
+        .checkbox-label input:checked~.checkmark{background-color:var(--accent-color);border-color:var(--accent-color)}
+        .checkmark:after{content:"";position:absolute;display:none}
+        .checkbox-label input:checked~.checkmark:after{display:block}
+        .checkbox-label .checkmark:after{left:7px;top:3px;width:5px;height:10px;border:solid white;border-width:0 2px 2px 0;transform:rotate(45deg)}
+        .checkbox-label.agreement{font-size:0.9rem;color:rgba(255,255,255,0.9)}
+        .btn-loading{display:none;align-items:center;justify-content:center;gap:10px}
+        .loading-spinner{width:18px;height:18px;border:2px solid rgba(255,255,255,0.3);border-radius:50%;border-top-color:white;animation:spin 1s linear infinite}
+        @keyframes spin{to{transform:rotate(360deg)}}
+        .submit-btn.loading .btn-text{display:none}
+        .submit-btn.loading .btn-loading{display:flex}
+        .contact-form select{appearance:none;background-image:url("data:image/svg+xml;charset=UTF8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
+            background-repeat:no-repeat;background-position:right 15px center;background-size:16px;padding-right:45px}
+        .contact-form select {
+            background-color: white !important;
+            color: black !important;
+        }
+        .contact-form select option {
+            background-color: white !important;
+            color: black !important;
+            padding: 10px;
+        }
+        
+        /* Стили для корзины */
+        .cart-modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);display:none;
+            align-items:center;justify-content:center;z-index:3000;padding:20px}
+        .cart-content{background:white;border-radius:var(--border-radius);width:100%;max-width:700px;max-height:90vh;
+            overflow-y:auto;box-shadow:var(--shadow-heavy);position:relative}
+        .cart-header{padding:20px;border-bottom:1px solid var(--light-blue);display:flex;justify-content:space-between;align-items:center}
+        .cart-header h3{margin:0;color:var(--primary-color)}
+        .close-cart{background:none;border:none;font-size:1.5rem;cursor:pointer;color:var(--dark-text);transition:var(--transition)}
+        .close-cart:hover{color:var(--accent-color);transform:rotate(90deg)}
+        .cart-body{padding:20px}
+        .cart-items{max-height:300px;overflow-y:auto;margin-bottom:20px;border-bottom:1px solid var(--light-blue);padding-bottom:20px}
+        .cart-item{display:flex;align-items:center;padding:15px 0;border-bottom:1px solid var(--light-blue);gap:15px}
+        .cart-item:last-child{border-bottom:none}
+        .cart-item-image{width:60px;height:60px;object-fit:cover;border-radius:8px}
+        .cart-item-info{flex:1}
+        .cart-item-title{font-weight:600;margin-bottom:5px;color:var(--primary-color)}
+        .cart-item-category{font-size:0.8rem;color:var(--secondary-color);margin-bottom:5px}
+        .cart-item-price{font-weight:700;color:var(--blue-color)}
+        .cart-item-controls{display:flex;align-items:center;gap:10px}
+        .quantity-btn{width:30px;height:30px;border-radius:50%;background:var(--light-blue);border:none;cursor:pointer;
+            display:flex;align-items:center;justify-content:center;transition:var(--transition)}
+        .quantity-btn:hover{background:var(--accent-color);color:white}
+        .cart-item-quantity{font-weight:600;min-width:30px;text-align:center}
+        .remove-item{background:none;border:none;color:#e74c3c;cursor:pointer;font-size:1.2rem;transition:var(--transition)}
+        .remove-item:hover{transform:scale(1.2)}
+        .cart-empty{text-align:center;padding:40px 20px;color:var(--secondary-color)}
+        .cart-contact-form{margin-top:20px}
+        .cart-contact-form h4{margin-bottom:15px;color:var(--primary-color)}
+        .cart-form-group{display:flex;flex-direction:column;margin-bottom:15px}
+        .cart-form-group label{font-weight:600;margin-bottom:5px;color:var(--dark-text)}
+        .cart-form-group input{padding:12px 15px;border:2px solid var(--light-blue);border-radius:8px;
+            font-family:inherit;font-size:1rem;transition:var(--transition)}
+        .cart-form-group input:focus{outline:none;border-color:var(--accent-color)}
+        .cart-footer{padding:20px;border-top:1px solid var(--light-blue)}
+        .cart-total{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;font-size:1.2rem;font-weight:700}
+        .cart-total-amount{color:var(--blue-color)}
+        .checkout-btn{width:100%;padding:15px;font-size:1.1rem}
+        
+        /* Новая кнопка подтверждения заказа - голубого цвета */
+        .confirm-order-btn{
+            background: var(--gradient-blue);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 15px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            width: 100%;
+            margin-top: 10px;
+            box-shadow: var(--shadow-medium);
+        }
+        .confirm-order-btn:hover{
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-heavy);
+        }
+        
+        /* Модальные окна для услуг и врачей */
+        .modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);display:none;
+            align-items:center;justify-content:center;z-index:3000;padding:20px}
+        .modal-content{background:white;border-radius:var(--border-radius);width:100%;max-width:700px;max-height:90vh;
+            overflow-y:auto;box-shadow:var(--shadow-heavy);position:relative}
+        .modal-header{padding:20px;border-bottom:1px solid var(--light-blue);display:flex;justify-content:space-between;align-items:center}
+        .modal-header h3{margin:0;color:var(--primary-color)}
+        .close-modal{background:none;border:none;font-size:1.5rem;cursor:pointer;color:var(--dark-text);transition:var(--transition)}
+        .close-modal:hover{color:var(--accent-color);transform:rotate(90deg)}
+        .modal-body{padding:20px}
+        
+        /* НОВЫЕ СТИЛИ: Пользовательская панель */
+        .user-panel {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 400px;
+            height: 100vh;
+            background: var(--white);
+            box-shadow: var(--shadow-heavy);
+            transition: var(--transition);
+            z-index: 2499;
+            overflow-y: auto;
+            padding: 20px;
+        }
+        
+        .user-panel.active {
+            right: 0;
+        }
+        
+        .user-toggle {
+            position: fixed;
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%);
+            background: var(--gradient-primary);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 10px 0 0 10px;
+            cursor: pointer;
+            box-shadow: var(--shadow-medium);
+            z-index: 2400;
+            margin-top: 50px; /* Отступ от админ-панели */
+        }
+        
+        /* Смещаем админ-панель выше */
+        .admin-toggle {
+            position: fixed;
+            top: 50%;
+            right: 0;
+            transform: translateY(calc(-50% - 60px));
+            background: var(--gradient-blue);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 10px 0 0 10px;
+            cursor: pointer;
+            box-shadow: var(--shadow-medium);
+            z-index: 2400;
+        }
+        
+        /* Стили для форм регистрации и входа */
+        .auth-form {
+            margin-bottom: 20px;
+        }
+        
+        .auth-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .auth-tab {
+            padding: 10px 20px;
+            background: var(--light-blue);
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+            flex: 1;
+            text-align: center;
+        }
+        
+        .auth-tab.active {
+            background: var(--gradient-primary);
+            color: white;
+        }
+        
+        .auth-content {
+            display: none;
+        }
+        
+        .auth-content.active {
+            display: block;
+        }
+        
+        .user-info {
+            text-align: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--light-blue);
+        }
+        
+        .user-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: var(--gradient-blue);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin: 0 auto 15px;
+            color: white;
+        }
+        
+        .user-name {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+        
+        .user-email {
+            color: var(--secondary-color);
+            font-size: 0.9rem;
+        }
+        
+        .user-appointments, .user-orders {
+            margin-bottom: 20px;
+        }
+        
+        .user-appointments h4, .user-orders h4 {
+            margin-bottom: 15px;
+            color: var(--primary-color);
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--light-blue);
+        }
+        
+        .no-data {
+            text-align: center;
+            color: var(--secondary-color);
+            padding: 20px;
+            font-style: italic;
+        }
+        
+        .appointment-doctor {
+            font-weight: 600;
+            color: var(--blue-color);
+            margin-top: 5px;
+        }
+        
+        /* Стили для формы записи к врачу */
+        .doctor-select {
+            margin-top: 15px;
+        }
+        
+        .doctor-select select {
+            width: 100%;
+            padding: 10px 15px;
+            border: 2px solid var(--light-blue);
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 1rem;
+            background-color: white;
+            color: var(--dark-text);
+            margin-bottom: 10px;
+        }
+        
+        /* Панель администратора */
+        .admin-panel{position:fixed;top:0;right:-400px;width:400px;height:100vh;background:var(--white);box-shadow:var(--shadow-heavy);
+            transition:var(--transition);z-index:2500;overflow-y:auto;padding:20px}
+        .admin-panel.active{right:0}
+        .admin-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;padding-bottom:15px;border-bottom:1px solid var(--light-blue)}
+        .admin-tabs{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap}
+        .admin-tab{padding:10px 20px;background:var(--light-blue);border-radius:var(--border-radius);cursor:pointer;transition:var(--transition)}
+        .admin-tab.active{background:var(--gradient-blue);color:white}
+        .admin-content{display:none}
+        .admin-content.active{display:block}
+        .admin-item{background:var(--light-blue);padding:15px;border-radius:var(--border-radius);margin-bottom:15px}
+        .admin-item-header{display:flex;justify-content:space-between;margin-bottom:10px}
+        .admin-item-title{font-weight:600;color:var(--primary-color)}
+        .admin-item-date{font-size:0.8rem;color:var(--secondary-color)}
+        .admin-item-details{margin-bottom:10px}
+        .admin-item-actions{display:flex;gap:10px}
+        .admin-btn{padding:5px 10px;border-radius:5px;border:none;cursor:pointer;transition:var(--transition)}
+        .admin-btn.primary{background:var(--gradient-blue);color:white}
+        .admin-btn.danger{background:#e74c3c;color:white}
+        
+        /* Стили для формы входа администратора */
+        .admin-login-form input {
+            background-color: white !important;
+            color: black !important;
+            border: 1px solid var(--light-blue) !important;
+        }
+        .admin-login-form input::placeholder {
+            color: #666 !important;
+        }
+        .logout-btn {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 8px 15px;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 10px;
+        }
+        .logout-btn:hover {
+            background: #c0392b;
+        }
+
+        /* Стили для кнопки VK в админ-панели */
+        .vk-button {
+            background: var(--gradient-blue);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 12px 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            width: 100%;
+            margin-top: 15px;
+            box-shadow: var(--shadow-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .vk-button:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-medium);
+        }
+        
+        footer{background:var(--primary-color);color:var(--white);padding:70px 20px 30px}
+        .footer-content{max-width:1400px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:50px}
+        .footer-col h3{font-size:1.5rem;margin-bottom:25px;color:var(--accent-color);position:relative;padding-bottom:10px}
+        .footer-col h3::after{content:'';position:absolute;bottom:0;left:0;width:50px;height:3px;background:var(--gradient-blue)}
+        .footer-about p{margin-bottom:25px;opacity:0.8}
+        .footer-links{list-style:none}
+        .footer-links li{margin-bottom:12px}
+        .footer-links a{color:rgba(255,255,255,0.8);text-decoration:none;transition:var(--transition);display:flex;align-items:center;gap:10px}
+        .footer-links a:hover{color:var(--accent-color);transform:translateX(5px)}
+        .footer-contact li{display:flex;gap:15px;margin-bottom:20px;align-items:flex-start}
+        .footer-contact i{font-size:1.2rem;color:var(--accent-color);flex-shrink:0;margin-top:3px}
+        .social-links{display:flex;gap:15px;margin-top:20px}
+        .social-links a{width:45px;height:45px;background:rgba(255,255,255,0.1);border-radius:50%;display:flex;align-items:center;
+            justify-content:center;font-size:1.2rem;color:var(--white);text-decoration:none;transition:var(--transition)}
+        .social-links a:hover{background:var(--accent-color);color:var(--primary-color);transform:translateY(-5px)}
+        .footer-bottom{max-width:1400px;margin:0 auto;padding-top:30px;border-top:1px solid rgba(255,255,255,0.1);text-align:center;font-size:0.9rem;opacity:0.7}
+        @keyframes fadeIn{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+        .fade-in{animation:fadeIn 1s ease forwards}
+        @media(max-width:1200px){h1{font-size:3rem}.hero-content h1{font-size:3.2rem}.hero-container{gap:40px}}
+        @media(max-width:992px){.header-container{padding:0 20px}nav ul{gap:15px}.hero-container{grid-template-columns:1fr;text-align:center}
+            .hero-content p{max-width:100%}.hero-actions{justify-content:center}.about-content{grid-template-columns:1fr}
+            .about-highlights{grid-template-columns:1fr}.contact-wrapper{grid-template-columns:1fr}.footer-content{grid-template-columns:1fr 1fr}
+            .image-container,.about-img-container{height:400px}.products-grid{grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
+            .admin-panel,.user-panel{width:100%;right:-100%}}
+        @media(max-width:768px){h1{font-size:2.5rem}h2{font-size:2.2rem}.section{padding:70px 20px}.section-title{font-size:2.2rem}
+            nav{position:fixed;top:0;right:-100%;width:280px;height:100vh;background:var(--gradient-primary);padding:100px 30px 30px;
+                transition:var(--transition);z-index:999;box-shadow:-5px 0 15px rgba(0,0,0,0.1);backdrop-filter:blur(10px)}
+            nav.active{right:0}nav ul{flex-direction:column;gap:15px}nav a{display:block;padding:12px 20px;border-radius:8px}
+            .mobile-menu-btn{display:flex;z-index:1000}.header-actions .phone-header{display:none}.hero{padding:140px 20px 80px}
+            .hero-content h1{font-size:2.5rem}.hero-content p{font-size:1.1rem}.services-grid{grid-template-columns:1fr}
+            .hero-stats{justify-content:center}.footer-content{grid-template-columns:1fr}.logo-title{font-size:1.7rem}
+            .logo-icon{width:55px;height:55px}.contact-form{padding:25px 20px}.products-grid{grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}
+            .user-toggle, .admin-toggle{padding:8px 12px;font-size:0.9rem}}
+        @media(max-width:576px){h1{font-size:2rem}h2{font-size:1.8rem}.section{padding:60px 15px}.btn{padding:14px 28px}
+            .hero-actions{flex-direction:column;align-items:center}.hero-stats{gap:25px}.stat-number{font-size:2rem}
+            .image-container,.about-img-container{height:300px}.contact-form{padding:20px 15px}.logo-title{font-size:1.5rem}
+            .logo-subtitle{font-size:0.75rem}.logo-icon{width:50px;height:50px}.logo-paw{font-size:1.8rem}
+            .products-grid{grid-template-columns:1fr}.cart-content{max-width:100%}.cart-item{flex-direction:column;text-align:center;gap:10px}
+            .auth-tabs{flex-direction:column}}
+    </style>
+</head>
+<body>
+    <!-- Пользовательская панель -->
+    <div class="user-toggle" id="userToggle">👤 Мой кабинет</div>
+    <div class="user-panel" id="userPanel">
+        <div class="user-header">
+            <h3>Личный кабинет</h3>
+            <button class="close-modal" id="closeUser">✕</button>
+        </div>
+        
+        <div id="authSection">
+            <div class="auth-tabs">
+                <div class="auth-tab active" data-auth="login">Вход</div>
+                <div class="auth-tab" data-auth="register">Регистрация</div>
+            </div>
+            
+            <div class="auth-content active" id="loginContentUser">
+                <div class="auth-form">
+                    <div class="form-group">
+                        <label for="userEmailLogin">Email</label>
+                        <input type="email" id="userEmailLogin" placeholder="Введите email" style="color: black; background: white;">
+                    </div>
+                    <div class="form-group">
+                        <label for="userPasswordLogin">Пароль</label>
+                        <input type="password" id="userPasswordLogin" placeholder="Введите пароль" style="color: black; background: white;">
+                    </div>
+                    <button class="btn btn-primary" id="userLoginBtn">Войти</button>
+                    <div id="userLoginMessage" style="margin-top: 15px;"></div>
+                </div>
+            </div>
+            
+            <div class="auth-content" id="registerContentUser">
+                <div class="auth-form">
+                    <div class="form-group">
+                        <label for="userNameRegister">Имя</label>
+                        <input type="text" id="userNameRegister" placeholder="Введите ваше имя" style="color: black; background: white;">
+                    </div>
+                    <div class="form-group">
+                        <label for="userEmailRegister">Email</label>
+                        <input type="email" id="userEmailRegister" placeholder="Введите email" style="color: black; background: white;">
+                    </div>
+                    <div class="form-group">
+                        <label for="userPhoneRegister">Телефон</label>
+                        <input type="tel" id="userPhoneRegister" placeholder="+7 (___) ___-__-__" style="color: black; background: white;">
+                    </div>
+                    <div class="form-group">
+                        <label for="userPasswordRegister">Пароль</label>
+                        <input type="password" id="userPasswordRegister" placeholder="Введите пароль" style="color: black; background: white;">
+                    </div>
+                    <div class="form-group">
+                        <label for="userPasswordConfirm">Повторите пароль</label>
+                        <input type="password" id="userPasswordConfirm" placeholder="Повторите пароль" style="color: black; background: white;">
+                    </div>
+                    <button class="btn btn-primary" id="userRegisterBtn">Зарегистрироваться</button>
+                    <div id="userRegisterMessage" style="margin-top: 15px;"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="userInfoSection" style="display: none;">
+            <div class="user-info">
+                <div class="user-avatar" id="userAvatar">👤</div>
+                <div class="user-name" id="userNameDisplay"></div>
+                <div class="user-email" id="userEmailDisplay"></div>
+                <button class="logout-btn" id="userLogoutBtn" style="margin-top: 15px;">Выйти</button>
+            </div>
+            
+            <div class="user-appointments">
+                <h4>Мои записи на приём</h4>
+                <div id="userAppointmentsList">
+                    <!-- Записи будут добавляться сюда динамически -->
+                </div>
+            </div>
+            
+            <div class="user-orders">
+                <h4>Мои заказы товаров</h4>
+                <div id="userOrdersList">
+                    <!-- Заказы будут добавляться сюда динамически -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Панель администратора -->
+    <div class="admin-toggle" id="adminToggle">Админ</div>
+    <div class="admin-panel" id="adminPanel">
+        <div class="admin-header">
+            <h3>Панель администратора</h3>
+            <button class="close-modal" id="closeAdmin">✕</button>
+        </div>
+        
+        <div class="admin-tabs">
+            <div class="admin-tab active" data-tab="appointments">Заявки на приём</div>
+            <div class="admin-tab" data-tab="orders">Заказы товаров</div>
+            <div class="admin-tab" data-tab="users">Пользователи</div>
+            <div class="admin-tab" data-tab="vk" id="vkTabAdmin" style="display: none;">VK</div>
+            <div class="admin-tab" data-tab="login">Вход</div>
+        </div>
+        
+        <div class="admin-content" id="appointmentsContent">
+            <h4>Заявки на приём</h4>
+            <div id="appointmentsList">
+                <!-- Заявки будут добавляться сюда динамически -->
+            </div>
+        </div>
+        
+        <div class="admin-content" id="ordersContent">
+            <h4>Заказы товаров</h4>
+            <div id="ordersList">
+                <!-- Заказы будут добавляться сюда динамически -->
+            </div>
+        </div>
+        
+        <div class="admin-content" id="usersContent">
+            <h4>Зарегистрированные пользователи</h4>
+            <div id="usersList">
+                <!-- Пользователи будут добавляться сюда динамически -->
+            </div>
+        </div>
+
+        <!-- Новая вкладка VK (доступна только после входа админа) -->
+        <div class="admin-content" id="vkContent">
+            <h4>Наша страница ВКонтакте</h4>
+            <p>Перейти на официальную страницу клиники в ВКонтакте:</p>
+            <button class="vk-button" id="goToVkButton">📘 Открыть страницу VK</button>
+        </div>
+
+        <div class="admin-content" id="loginContent">
+            <h4>Вход для администратора</h4>
+            <div class="admin-login-form">
+                <div class="form-group">
+                    <label for="adminLogin">Логин</label>
+                    <input type="text" id="adminLogin" placeholder="Введите логин" style="color: black; background: white;">
+                </div>
+                <div class="form-group">
+                    <label for="adminPassword">Пароль</label>
+                    <input type="password" id="adminPassword" placeholder="Введите пароль" style="color: black; background: white;">
+                </div>
+                <button class="btn btn-primary" id="adminLoginBtn">Войти</button>
+                <div id="adminMessage" style="margin-top: 15px;"></div>
+            </div>
+        </div>
+        
+        <div id="adminLogoutSection" style="display: none; margin-top: 20px; text-align: center;">
+            <button class="logout-btn" id="adminLogoutBtn">Выйти из администратора</button>
+        </div>
+    </div>
+
+    <!-- Модальные окна для услуг и врачей -->
+    <div class="modal" id="serviceModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="serviceModalTitle">Услуга</h3>
+                <button class="close-modal" id="closeServiceModal">✕</button>
+            </div>
+            <div class="modal-body" id="serviceModalBody">
+                <!-- Содержимое будет заполняться динамически -->
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal" id="doctorModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="doctorModalTitle">Врач</h3>
+                <button class="close-modal" id="closeDoctorModal">✕</button>
+            </div>
+            <div class="modal-body" id="doctorModalBody">
+                <!-- Содержимое будет заполняться динамически -->
+            </div>
+        </div>
+    </div>
+
+    <header id="header">
+        <div class="header-container">
+            <a href="#" class="logo">
+                <div class="logo-icon">
+                    <div class="logo-paw"><img src="https://sun9-69.userapi.com/s/v1/ig2/mnwLox4W6IrBjhhff5w9O14JmaiExryRpcx5R8Jf224NFdZxdNrNz9OcO0HPy1EM9IIottscKa0lZIiq82OX7hTB.jpg?quality=95&as=32x28,48x42,72x64,108x96,160x142,240x212,360x319,480x425,512x453&from=bu&cs=512x453" alt="Логотип" style="width:100%;height:100%;object-fit:cover"></div>
+                </div>
+                <div class="logo-text">
+                    <div class="logo-title">Лапа помощи</div>
+                    <div class="logo-subtitle">ВЕТЕРИНАРНАЯ КЛИНИКА</div>
+                </div>
+            </a>
+            <nav id="nav">
+                <ul>
+                    <li><a href="#home" class="active">Главная</a></li>
+                    <li><a href="#services">Услуги</a></li>
+                    <li><a href="#products">Товары</a></li>
+                    <li><a href="#blog">Новости</a></li>
+                    <li><a href="#about">О клинике</a></li>
+                    <li><a href="#team">Врачи</a></li>
+                    <li><a href="#gallery">Галерея</a></li>
+                    <li><a href="#testimonials">Отзывы</a></li>
+                    <li><a href="#contact">Контакты</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <a href="tel:+74997040874" class="phone-header"><span>📞</span><span>+7 (499) 704-08-74</span></a>
+                <div class="cart-icon" id="cartIcon">
+                    🛒
+                    <div class="cart-count" id="cartCount">0</div>
+                </div>
+                <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero" id="home">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1>Забота о здоровье вашего питомца</h1>
+                <p>Современная ветеринарная клиника с опытными врачами, передовым оборудованием и индивидуальным подходом к каждому пациенту</p>
+                <div class="hero-actions">
+                    <a href="#contact" class="btn btn-primary btn-large">Записаться на приём</a>
+                    <a href="#services" class="btn btn-secondary btn-large">Наши услуги</a>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat-item"><div class="stat-number">5+</div><div class="stat-label">Лет опыта</div></div>
+                    <div class="stat-item"><div class="stat-number">5000+</div><div class="stat-label">Довольных клиентов</div></div>
+                    <div class="stat-item"><div class="stat-number">24/7</div><div class="stat-label">Скорая помощь</div></div>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="image-container">
+                    <img src="https://sun9-14.userapi.com/s/v1/ig2/UEg9aj8wEiO-Sk2VvYBfYfv-Fec2I10HETt8dvpyuVTqoNvggP6y1X5Sg02v6QhY-BacC8-14klHOOp9vF_29oof.jpg?quality=95&as=32x24,48x36,72x54,108x81,160x120,240x180,360x270,480x360,540x405,640x480,720x540,1080x810,1280x960&from=bu&cs=1280x960" alt="Собака" class="hero-animals">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="services section" id="services">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Наши услуги</h2>
+                <p class="section-subtitle">Мы предлагаем полный спектр ветеринарных услуг для ваших питомцев с использованием современного оборудования и передовых методик лечения</p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card fade-in" data-service="primary">
+                    <div class="service-icon">🏥</div>
+                    <h3>Первичный осмотр</h3>
+                    <p>Комплексное обследование вашего питомца опытным ветеринаром с полной диагностикой состояния здоровья</p>
+                    <div class="service-price">от 1500 ₽</div>
+                </div>
+                <div class="service-card fade-in" data-service="vaccination">
+                    <div class="service-icon">💉</div>
+                    <h3>Вакцинация</h3>
+                    <p>Профилактические прививки для защиты от опасных заболеваний по международным протоколам</p>
+                    <div class="service-price">от 800 ₽</div>
+                </div>
+                <div class="service-card fade-in" data-service="dentistry">
+                    <div class="service-icon">🦷</div>
+                    <h3>Стоматология</h3>
+                    <p>Профессиональная чистка зубов, лечение и удаление, профилактика стоматологических заболеваний</p>
+                    <div class="service-price">от 2500 ₽</div>
+                </div>
+                <div class="service-card fade-in" data-service="diagnostics">
+                    <div class="service-icon">🔬</div>
+                    <h3>Диагностика</h3>
+                    <p>УЗИ, рентгеновское исследование, лабораторные анализы на современном оборудованием</p>
+                    <div class="service-price">от 2000 ₽</div>
+                </div>
+                <div class="service-card fade-in" data-service="surgery">
+                    <div class="service-icon">✂️</div>
+                    <h3>Хирургия</h3>
+                    <p>Стерильные операции под анестезией с использованием современного оборудования и материалов</p>
+                    <div class="service-price">от 5000 ₽</div>
+                </div>
+                <div class="service-card fade-in" data-service="grooming">
+                    <div class="service-icon">🛁</div>
+                    <h3>Груминг</h3>
+                    <p>Профессиональный уход за шерстью, когтями и кожей вашего питомца с использованием гипоаллергенных средств</p>
+                    <div class="service-price">от 1200 ₽</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="products section" id="products">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Ветеринарные товары</h2>
+                <p class="section-subtitle">Качественные корма, лекарства и аксессуары для здоровья и комфорта вашего питомца</p>
+            </div>
+            <div class="products-grid">
+                <div class="product-card fade-in">
+                    <img src="https://ir.ozone.ru/s3/multimedia-a/c600/6248647870.jpg" alt="Корм для собак Royal Canin" class="product-image">
+                    <div class="product-info">
+                        <span class="product-category">Корм</span>
+                        <h3 class="product-title">Royal Canin для собак</h3>
+                        <p class="product-description">Сбалансированный корм для взрослых собак всех пород с курицей и рисом</p>
+                        <div class="product-footer">
+                            <div class="product-price">1 890 ₽</div>
+                            <button class="add-to-cart" data-id="1" data-name="Royal Canin для собак" data-price="1890" data-image="https://ir.ozone.ru/s3/multimedia-a/c600/6248647870.jpg">🛒 В корзину</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-card fade-in">
+                    <img src="https://natalyland.ru/wp-content/uploads/4/f/c/4fcfc024551156da639c72834093b0e7.jpeg" alt="Корм для кошек Purina Pro Plan" class="product-image">
+                    <div class="product-info">
+                        <span class="product-category">Корм</span>
+                        <h3 class="product-title">Purina Pro Plan для кошек</h3>
+                        <p class="product-description">Высококачественный корм для кошек с чувствительным пищеварением</p>
+                        <div class="product-footer">
+                            <div class="product-price">1 650 ₽</div>
+                            <button class="add-to-cart" data-id="2" data-name="Purina Pro Plan для кошек" data-price="1650" data-image="https://natalyland.ru/wp-content/uploads/4/f/c/4fcfc024551156da639c72834093b0e7.jpeg">🛒 В корзину</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-card fade-in">
+                    <img src="https://main-cdn.sbermegamarket.ru/big2/hlr-system/835/290/839/724/135/100031764817b3.jpg" alt="Ошейник от блох и клещей" class="product-image">
+                    <div class="product-info">
+                        <span class="product-category">Аксессуары</span>
+                        <h3 class="product-title">Ошейник от блох и клещей</h3>
+                        <p class="product-description">Защитный ошейник для собак и кошек, эффективен до 8 месяцев</p>
+                        <div class="product-footer">
+                            <div class="product-price">850 ₽</div>
+                            <button class="add-to-cart" data-id="3" data-name="Ошейник от блох и клещей" data-price="850" data-image="https://main-cdn.sbermegamarket.ru/big2/hlr-system/835/290/839/724/135/100031764817b3.jpg">🛒 В корзину</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-card fade-in">
+                    <img src="https://gomeovet.ru/image/catalog/product2/farmavit_neo_all.jpg" alt="Витамины для животных" class="product-image">
+                    <div class="product-info">
+                        <span class="product-category">Витамины</span>
+                        <h3 class="product-title">Комплекс витаминов Beaphar</h3>
+                        <p class="product-description">Мультивитаминный комплекс для поддержания здоровья шерсти и кожи</p>
+                        <div class="product-footer">
+                            <div class="product-price">1 200 ₽</div>
+                            <button class="add-to-cart" data-id="4" data-name="Комплекс витаминов Beaphar" data-price="1200" data-image="https://gomeovet.ru/image/catalog/product2/farmavit_neo_all.jpg">🛒 В корзину</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-card fade-in">
+                    <img src="https://zooman.ru/upload/iblock/370/7s2q8mfujj07amcfjc2abzi74rzwv4vt.jpg" alt="Шампунь для животных" class="product-image">
+                    <div class="product-info">
+                        <span class="product-category">Гигиена</span>
+                        <h3 class="product-title">Шампунь гипоаллергенный</h3>
+                        <p class="product-description">Мягкий шампунь для чувствительной кожи собак и кошек без парабенов</p>
+                        <div class="product-footer">
+                            <div class="product-price">750 ₽</div>
+                            <button class="add-to-cart" data-id="5" data-name="Шампунь гипоаллергенный" data-price="750" data-image="https://zooman.ru/upload/iblock/370/7s2q8mfujj07amcfjc2abzi74rzwv4vt.jpg">🛒 В корзину</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-card fade-in">
+                    <img src="https://avatars.mds.yandex.net/get-mpic/12354050/2a0000018f0076fcf17763cc44306f12a5f2/orig" alt="Лакомства для собак" class="product-image">
+                    <div class="product-info">
+                        <span class="product-category">Лакомства</span>
+                        <h3 class="product-title">Лакомства для собак Pedigree</h3>
+                        <p class="product-description">Вкусные и полезные лакомства для дрессировки и поощрения питомца</p>
+                        <div class="product-footer">
+                            <div class="product-price">450 ₽</div>
+                            <button class="add-to-cart" data-id="6" data-name="Лакомства для собак Pedigree" data-price="450" data-image="https://avatars.mds.yandex.net/get-mpic/12354050/2a0000018f0076fcf17763cc44306f12a5f2/orig">🛒 В корзину</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-card fade-in">
+                    <img src="https://avatars.mds.yandex.net/i?id=ee56380b7dc79f232fd1939e56b50328d19c43b7-5529899-images-thumbs&n=13" alt="Антибиотик для животных" class="product-image">
+                    <div class="product-info">
+                        <span class="product-category">Лекарства</span>
+                        <h3 class="product-title">Антибиотик широкого спектра</h3>
+                        <p class="product-description">Эффективный антибиотик для лечения бактериальных инфекций у животных</p>
+                        <div class="product-footer">
+                            <div class="product-price">1 500 ₽</div>
+                            <button class="add-to-cart" data-id="7" data-name="Антибиотик широкого спектра" data-price="1500" data-image="https://avatars.mds.yandex.net/i?id=ee56380b7dc79f232fd1939e56b50328d19c43b7-5529899-images-thumbs&n=13">🛒 В корзину</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-card fade-in">
+                    <img src="https://ir.ozone.ru/s3/multimedia-m/c1000/6117026086.jpg" alt="Игрушка для кошек" class="product-image">
+                    <div class="product-info">
+                        <span class="product-category">Игрушки</span>
+                        <h3 class="product-title">Интерактивная игрушка для кошек</h3>
+                        <p class="product-description">Увлекательная игрушка с перьями для активных игр и развития питомца</p>
+                        <div class="product-footer">
+                            <div class="product-price">650 ₽</div>
+                            <button class="add-to-cart" data-id="8" data-name="Интерактивная игрушка для кошек" data-price="650" data-image="https://ir.ozone.ru/s3/multimedia-m/c1000/6117026086.jpg">🛒 В корзину</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- НОВЫЙ РАЗДЕЛ: Блог/Новости из ВК -->
+    <section class="blog section" id="blog">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Новости и статьи</h2>
+                <p class="section-subtitle">Самые свежие новости из нашей клиники и полезные статьи о здоровье питомцев</p>
+            </div>
+            
+            <div class="blog-filters">
+                <button class="blog-filter-btn active" data-filter="all">Все новости</button>
+                <button class="blog-filter-btn" data-filter="news">Новости клиники</button>
+                <button class="blog-filter-btn" data-filter="articles">Полезные статьи</button>
+                <button class="blog-filter-btn" data-filter="tips">Советы врачей</button>
+            </div>
+            
+            <div class="blog-grid" id="blogGrid">
+                <!-- Посты из ВК будут загружаться сюда автоматически -->
+                <div class="no-posts">
+                    <p>Загрузка новостей...</p>
+                </div>
+            </div>
+            
+            <div class="blog-load-more">
+                <button class="btn btn-primary" id="loadMorePosts">Загрузить еще</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="about section" id="about">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">О нашей клинике</h2>
+                <p class="section-subtitle">«Лапа помощи» — это современная ветеринарная клиника, где каждый питомец получает заботливое и профессиональное обслуживание</p>
+            </div>
+            <div class="about-content">
+                <div class="about-text">
+                    <h3>Почему выбирают нас?</h3>
+                    <p>Наша клиника была основана в 2020 году с целью предоставления высококачественных ветеринарных услуг. За годы работы мы помогли тысячам животных и заслужили доверие их владельцев.</p>
+                    <p>Мы используем только современное оборудование и проверенные методы лечения, что гарантирует быстрое выздоровление вашего любимца. Наша команда постоянно повышает квалификацию и следит за новейшими достижениями ветеринарии.</p>
+                    <div class="about-highlights">
+                        <div class="highlight-item"><div class="highlight-icon">✓</div><div class="highlight-text"><h4>Опытные специалисты</h4><p>Врачи с высшим образованием и многолетним опытом</p></div></div>
+                        <div class="highlight-item"><div class="highlight-icon">✓</div><div class="highlight-text"><h4>Современное оборудование</h4><p>Новейшие аппараты УЗИ, рентгена и лабораторные анализаторы</p></div></div>
+                        <div class="highlight-item"><div class="highlight-icon">✓</div><div class="highlight-text"><h4>Круглосуточная помощь</h4><p>Скорая ветеринарная помощь доступна 24 часа 7 дней в неделю</p></div></div>
+                        <div class="highlight-item"><div class="highlight-icon">✓</div><div class="highlight-text"><h4>Доступные цены</h4><p>Честная ценовая политика и различные варианты оплаты</p></div></div>
+                    </div>
+                </div>
+                <div class="about-image">
+                    <div class="about-img-container">
+                        <img src="https://sun9-23.userapi.com/s/v1/ig2/mT-ke32GiEw9oVcXTQ_SZM2PYILkdC7_O0hSCH7UTn1Tu--hbQwWj0ZiVCRAgK8szfPHNn-FXok1aXcRfmoKrHEk.jpg?quality=95&as=32x20,48x30,72x45,108x67,160x100,240x150,360x225,480x300,540x337,640x400,720x450,1080x675,1280x800&from=bu&cs=1280x800" alt="Кошка" class="about-animals">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="team section" id="team">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Наши врачи</h2>
+                <p class="section-subtitle">Профессиональная команда ветеринаров с многолетним опытом работы и искренней любовью к животным</p>
+            </div>
+            <div class="team-grid">
+                <div class="team-member fade-in" data-doctor="elena">
+                    <div class="member-avatar">
+                        <img src="https://sun9-42.userapi.com/s/v1/ig2/oLkX5iUM63iTiiFtEGLuoaK0fH-7vpVM7HYpyvp-hH9fyfD74R9xerIUKBFZnsVwjtyKI-sZ2gqTFSzpNEr472YF.jpg?quality=95&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540,640x640,720x720,1024x1024&from=bu&cs=1024x1024" alt="Елена Петрова">
+                    </div>
+                    <h4>Елена Петрова</h4>
+                    <div class="position">Главный врач, терапевт</div>
+                    <div class="experience">Опыт: 12 лет</div>
+                    <p>Специализируется на терапии, диагностике и лечении внутренних болезней. Постоянно повышает квалификацию на международных конференциях.</p>
+                </div>
+                <div class="team-member fade-in" data-doctor="ivan">
+                    <div class="member-avatar">
+                        <img src="https://sun9-41.userapi.com/s/v1/ig2/eCBjDN95cJtEYoCVUF1k3jeur9rU86GXhoA_2YFuAvLWacgwDzDwWl5zbb6MA6Do4mhjt9h9O7weA8rejYLjMyPs.jpg?quality=95&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540,640x640,720x720,1024x1024&from=bu&cs=1024x1024" alt="Иван Сидоров">
+                    </div>
+                    <h4>Иван Сидоров</h4>
+                    <div class="position">Хирург, ортопед</div>
+                    <div class="experience">Опыт: 9 лет</div>
+                    <p>Проводит сложные хирургические операции, включая ортопедические. Владеет техникой малоинвазивной хирургии.</p>
+                </div>
+                <div class="team-member fade-in" data-doctor="anna">
+                    <div class="member-avatar">
+                        <img src="https://sun9-62.userapi.com/s/v1/ig2/hNXzUFGmLmSiRTRdWrkkGhqrsPtWvvH0Yo_YHtDQHHyI-w9nZPiRV2ZOtabUjR6AE8wSiEN2G8gMv5C1eAcTRGS4.jpg?quality=95&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540,640x640,720x720,1024x1024&from=bu&cs=1024x1024" alt="Анна Волкова">
+                    </div>
+                    <h4>Анна Волкова</h4>
+                    <div class="position">Стоматолог, дерматолог</div>
+                    <div class="experience">Опыт: 7 лет</div>
+                    <p>Специалист по стоматологическим и кожным заболеваниям. Прошла стажировку в европейской ветеринарной клинике.</p>
+                </div>
+                <div class="team-member fade-in" data-doctor="sergey">
+                    <div class="member-avatar">
+                        <img src="https://sun9-41.userapi.com/s/v1/ig2/eCBjDN95cJtEYoCVUF1k3jeur9rU86GXhoA_2YFuAvLWacgwDzDwWl5zbb6MA6Do4mhjt9h9O7weA8rejYLjMyPs.jpg?quality=95&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540,640x640,720x720,1024x1024&from=bu&cs=1024x1024" alt="Сергей Орлов">
+                    </div>
+                    <h4>Сергей Орлов</h4>
+                    <div class="position">УЗИ диагност, рентгенолог</div>
+                    <div class="experience">Опыт: 10 лет</div>
+                    <p>Проводит ультразвуковые и рентгенологические исследования. Эксперт в области визуальной диагностики.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="gallery section" id="gallery">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Галерея</h2>
+                <p class="section-subtitle">Наша клиника оснащена современным оборудованием и создает комфортные условия для пациентов</p>
+            </div>
+            <div class="gallery-grid">
+                <div class="gallery-item fade-in"><img src="https://i.pinimg.com/originals/c7/f2/e7/c7f2e7f5251dd0ffc1b8561fc0ad0870.jpg" alt="Клиника" class="gallery-img"></div>
+                <div class="gallery-item fade-in"><img src="https://borisovskij-r31.gosweb.gosuslugi.ru/netcat_files/generated/91/123/760x570/855/8ef1b78ef551488a260b0753c523292c.jpg?crop=0%3A0%3A0%3A0&hash=cd63dfdb9d68c35ad20dbac6e08e4200&resize_mode=0&wm_m=0" alt="Лаборатория" class="gallery-img"></div>
+                <div class="gallery-item fade-in"><img src="https://files.1mi.media/0061ce2584b609daf74748b38304c11548816857/c:1219:685:nowe:0:0/ad401d9aa9481825e8da3ea032baa6d8892a01eba3127eaccae27b4089de.jpg" alt="Лекарства" class="gallery-img"></div>
+                <div class="gallery-item fade-in"><img src="http://ic.pics.livejournal.com/radimich_ru/27063367/222493/222493_original.jpg" alt="Зона ожидания" class="gallery-img"></div>
+                <div class="gallery-item fade-in"><img src="https://img.freepik.com/premium-photo/closeup-curious-border-collie-dog-looking-camera-isolated-blue-background_77749-687.jpg?semt=ais_hybrid&w=740" alt="Собака" class="gallery-img"></div>
+                <div class="gallery-item fade-in"><img src="https://i.pinimg.com/474x/0d/79/e9/0d79e9918df9c899d5ef5feed2e8c342.jpg" alt="Кошка" class="gallery-img"></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="testimonials section" id="testimonials">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Отзывы клиентов</h2>
+                <p class="section-subtitle">Что говорят владельцы питомцев о нашей работе</p>
+            </div>
+            <div class="testimonials-container">
+                <div class="testimonials-slider">
+                    <div class="testimonials-track" id="testimonialsTrack">
+                        <div class="testimonial">
+                            <div class="testimonial-content">
+                                <div class="testimonial-text">Хочу выразить огромную благодарность врачам клиники «Лапа помощи»! Мою собаку прооперировали по поводу заворота желудка. Благодаря профессионализму и оперативности врачей, питомец быстро восстановился. Отдельное спасибо хирургу Ивану Сидорову за мастерство и человеческое отношение!</div>
+                                <div class="testimonial-author"><div class="author-avatar">👩</div><div class="author-info"><h4>Мария Иванова</h4><p>Владелец лабрадора Ричарда</p></div></div>
+                            </div>
+                        </div>
+                        <div class="testimonial">
+                            <div class="testimonial-content">
+                                <div class="testimonial-text">Обращаемся в эту клинику уже более 5 лет. Всегда получаем квалифицированную помощь. Особенно хочется отметить стоматолога Анну Волкову - она вылечила нашему коту запущенный гингивит, с которым не могли справиться в другой клинике. Цены адекватные, оборудование современное, врачи внимательные.</div>
+                                <div class="testimonial-author"><div class="author-avatar">👨</div><div class="author-info"><h4>Андрей Семенов</h4><p>Владелец кота Барсика</p></div></div>
+                            </div>
+                        </div>
+                        <div class="testimonial">
+                            <div class="testimonial-content">
+                                <div class="testimonial-text">Ночью у собаки начались судороги. Позвонили в клинику, и нам сразу сказали приезжать. Несмотря на поздний час, нас приняли, провели полную диагностику и оказали необходимую помощь. Собака быстро пошла на поправку. Очень благодарна за оперативность и профессионализм!</div>
+                                <div class="testimonial-author"><div class="author-avatar">👩</div><div class="author-info"><h4>Ольга Ковалева</h4><p>Владелец таксы Фунтика</p></div></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonials-nav">
+                    <div class="testimonial-dot active" data-slide="0"></div>
+                    <div class="testimonial-dot" data-slide="1"></div>
+                    <div class="testimonial-dot" data-slide="2"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="faq section" id="faq">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Частые вопросы</h2>
+                <p class="section-subtitle">Ответы на наиболее распространенные вопросы о наших услугах</p>
+            </div>
+            <div class="faq-container">
+                <div class="faq-item">
+                    <div class="faq-question"><h3>Как записаться на прием?</h3><div class="faq-icon">+</div></div>
+                    <div class="faq-answer"><p>Вы можете записаться на прием по телефону +7 (499) 704-08-74, через форму обратной связи на сайте или лично посетив нашу клинику. Мы рекомендуем записываться заранее, чтобы выбрать удобное для вас время.</p></div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question"><h3>Работаете ли вы в выходные и праздники?</h3><div class="faq-icon">+</div></div>
+                    <div class="faq-answer"><p>Да, наша клиника работает без выходных. В праздничные дни мы также оказываем услуги, но по сокращенному графику. Круглосуточно доступна скорая ветеринарная помощь по предварительному звонку.</p></div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question"><h3>Как подготовить питомца к визиту в клинике?</h3><div class="faq-icon">+</div></div>
+                    <div class="faq-answer"><p>За 4-6 часов до визита не кормите питомца, вода разрешена. Возьмите с собой ветеринарный паспорт, если он есть. Для кошек используйте переноску, для собак - поводок и намордник при необходимости. Сообщите врачу обо всех особенностях поведения животного.</p></div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question"><h3>Предоставляете ли вы документы для вывоза животного за границу?</h3><div class="faq-icon">+</div></div>
+                    <div class="faq-answer"><p>Да, мы оформляем все необходимые ветеринарные документы для вывоза животных за границу, включая международный ветеринарный паспорт, справки о здоровье и вакцинации. Рекомендуем обратиться за консультацией заранее, так как требования разных стран могут отличаться.</p></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="contact section" id="contact">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title" style="color:var(--white)">Свяжитесь с нами</h2>
+                <p class="section-subtitle" style="color:rgba(255,255,255,0.9)">Мы всегда рады помочь вашему питомцу. Запишитесь на прием или задайте вопрос</p>
+            </div>
+            <div class="contact-wrapper">
+                <div class="contact-info">
+                    <div class="contact-item"><div class="contact-icon">📍</div><div><h4>Адрес клиники</h4><p>г. Москва, ул. Московская, д. 16</p></div></div>
+                    <div class="contact-item"><div class="contact-icon">📞</div><div><h4>Телефоны</h4><p><a href="tel:+74997040874">+7 (499) 704-08-74</a></p></div></div>
+                    <div class="contact-item"><div class="contact-icon">⏰</div><div><h4>Время работы</h4><p>Пн-Пт: 09:00 - 21:00<br>Сб-Вс: 10:00 - 20:00<br>Скорая помощь: 24/7</p></div></div>
+                    <div class="contact-item"><div class="contact-icon">✉️</div><div><h4>Электронная почта</h4><p><a href="mailto:med@vetstate.ru">med@vetstate.ru</a></p></div></div>
+                </div>
+                <form class="contact-form" onsubmit="handleSubmit(event)">
+                    <div class="form-group"><label for="name">Ваше имя</label><input type="text" id="name" name="name" placeholder="Введите ваше имя" required><div class="validation-message"></div></div>
+                    <div class="form-group"><label for="phone">Телефон</label><input type="tel" id="phone" name="phone" placeholder="+7 (___) ___-__-__" required><div class="validation-message"></div></div>
+                    <div class="form-group"><label for="email">Электронная почта</label><input type="email" id="email" name="email" placeholder="email@example.com"><div class="validation-message"></div></div>
+                    <div class="form-group"><label for="service">Услуга</label>
+                        <select id="service" name="service" required>
+                            <option value="" disabled selected>Выберите услугу</option>
+                            <option value="primary">Первичный осмотр</option>
+                            <option value="vaccination">Вакцинация</option>
+                            <option value="dentistry">Стоматология</option>
+                            <option value="diagnostics">Диагностика</option>
+                            <option value="surgery">Хирургия</option>
+                            <option value="grooming">Груминг</option>
+                            <option value="other">Другое</option>
+                        </select>
+                        <div class="validation-message"></div>
+                    </div>
+                    <div class="form-group">
+                        <label>Вид питомца (можно выбрать несколько)</label>
+                        <div class="checkbox-group">
+                            <label class="checkbox-label"><input type="checkbox" name="pet" value="dog"><span class="checkmark"></span>Собака</label>
+                            <label class="checkbox-label"><input type="checkbox" name="pet" value="cat"><span class="checkmark"></span>Кошка</label>
+                            <label class="checkbox-label"><input type="checkbox" name="pet" value="other"><span class="checkmark"></span>Другое</label>
+                        </div>
+                        <div class="validation-message"></div>
+                    </div>
+                    <div class="form-group"><label for="message">Сообщение</label><textarea id="message" name="message" placeholder="Опишите проблему или задайте вопрос" required></textarea><div class="validation-message"></div></div>
+                    <div class="form-group checkbox-group">
+                        <label class="checkbox-label agreement"><input type="checkbox" name="agreement" required><span class="checkmark"></span>Я согласен на обработку моих персональных данных</label>
+                        <div class="validation-message"></div>
+                    </div>
+                    <button type="submit" class="submit-btn btn btn-primary">
+                        <span class="btn-text">Отправить заявку</span>
+                        <div class="btn-loading"><div class="loading-spinner"></div><span>Отправка...</span></div>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Модальное окно корзины -->
+    <div class="cart-modal" id="cartModal">
+        <div class="cart-content">
+            <div class="cart-header">
+                <h3>Корзина товаров</h3>
+                <button class="close-cart" id="closeCart">✕</button>
+            </div>
+            <div class="cart-body">
+                <div class="cart-items" id="cartItems">
+                    <!-- Товары будут добавляться сюда динамически -->
+                </div>
+                
+                <!-- Форма для контактов в корзине -->
+                <div class="cart-contact-form" id="cartContactForm" style="display: none;">
+                    <h4>Контактные данные для заказа</h4>
+                    <div class="cart-form-group">
+                        <label for="cartName">Ваше имя *</label>
+                        <input type="text" id="cartName" placeholder="Введите ваше имя" required>
+                    </div>
+                    <div class="cart-form-group">
+                        <label for="cartPhone">Телефон *</label>
+                        <input type="tel" id="cartPhone" placeholder="+7 (___) ___-__-__" required>
+                    </div>
+                    <div class="cart-form-group">
+                        <label for="cartEmail">Электронная почта</label>
+                        <input type="email" id="cartEmail" placeholder="email@example.com">
+                    </div>
+                    <div class="cart-form-group">
+                        <label for="cartAddress">Адрес доставки</label>
+                        <input type="text" id="cartAddress" placeholder="Укажите адрес доставки">
+                    </div>
+                    <div class="cart-form-group">
+                        <label for="cartComment">Комментарий к заказу</label>
+                        <input type="text" id="cartComment" placeholder="Дополнительные пожелания">
+                    </div>
+                </div>
+                
+                <div class="cart-footer">
+                    <div class="cart-total">
+                        <span>Итого:</span>
+                        <span class="cart-total-amount" id="cartTotal">0 ₽</span>
+                    </div>
+                    <button class="checkout-btn btn btn-primary" id="checkoutBtn">Оформить заказ</button>
+                    <button class="confirm-order-btn" id="confirmOrderBtn" style="display: none;">Подтвердить заказ</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-col footer-about">
+                <h3>О клинике</h3>
+                <p>«Лапа помощи» — современная ветеринарная клиника, предоставляющая полный спектр услуг для ваших питомцев. Мы заботимся о здоровье и благополучии животных с 2008 года.</p>
+                <div class="social-links">
+                    <a href="https://vk.com/club233086441" title="ВКонтакте" target="_blank">📘</a><a href="#" title="MAX">💬</a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h3>Услуги</h3>
+                <ul class="footer-links">
+                    <li><a href="#services">Первичный осмотр</a></li><li><a href="#services">Вакцинация</a></li><li><a href="#services">Стоматология</a></li>
+                    <li><a href="#services">Диагностика</a></li><li><a href="#services">Хирургия</a></li><li><a href="#services">Груминг</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>Клиника</h3>
+                <ul class="footer-links">
+                    <li><a href="#about">О нас</a></li><li><a href="#team">Наши врачи</a></li><li><a href="#gallery">Галерея</a></li>
+                    <li><a href="#testimonials">Отзывы</a></li><li><a href="#faq">Частые вопросы</a></li><li><a href="#contact">Контакты</a></li>
+                </ul>
+            </div>
+            <div class="footer-col footer-contact">
+                <h3>Контакты</h3>
+                <ul>
+                    <li><i>📍</i><span>г. Москва, ул. Московская, д. 16</span></li>
+                    <li><i>📞</i><span>+7 (499) 704-08-74</span></li>
+                    <li><i>✉️</i><span>med@vetstate.ru</span></li>
+                    <li><i>⏰</i><span>Пн-Вс: 09:00 - 21:00</span></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Ветеринарная клиника «Лапа помощи». Все права защищены.</p>
+        </div>
+    </footer>
+
+    <script>
+        // ==================== СИСТЕМА АВТОМАТИЧЕСКОГО ПЕРЕНОСА ПОСТОВ ИЗ VK ====================
+        
+        // ID вашего сообщества ВКонтакте (club233086441)
+        const VK_GROUP_ID = '233086441';
+        // Токен доступа для VK API (необходимо получить)
+        // Для тестирования используем публичный доступ
+        const VK_ACCESS_TOKEN = '';
+        // Прокси для обхода CORS
+        const CORS_PROXY = 'https://cors-anywhere.herokuapp.com/';
+        
+        // Данные для кэширования постов
+        let vkPosts = [];
+        let currentPostCount = 6;
+        const postsPerPage = 6;
+        
+        // Функция для получения постов из VK
+        async function fetchVKPosts() {
+            try {
+                // Используем JSONP подход для обхода CORS
+                // В реальном проекте вам нужно будет настроить бэкенд или использовать серверный прокси
+                // Для демонстрации создаем заглушку с примерами постов
+                
+                // В реальном случае нужно использовать VK API:
+                // https://api.vk.com/method/wall.get?owner_id=-${VK_GROUP_ID}&count=20&access_token=${VK_ACCESS_TOKEN}&v=5.131
+                
+                // Создаем демо-посты для примера
+                createDemoPosts();
+                
+            } catch (error) {
+                console.error('Ошибка при загрузке постов:', error);
+                // Если не удалось загрузить, показываем демо-посты
+                createDemoPosts();
+            }
+        }
+        
+        // Создание демо-постов для примера
+        function createDemoPosts() {
+            const demoPosts = [
+                {
+                    id: 1,
+                    date: new Date().getTime() / 1000,
+                    text: '📢 Важная новость! С 1 декабря в нашей клинике начинается акция "Зимняя забота" - скидка 15% на все профилактические процедуры для ваших питомцев!',
+                    attachments: [],
+                    likes: { count: 42 },
+                    reposts: { count: 8 },
+                    views: { count: 156 },
+                    category: 'news'
+                },
+                {
+                    id: 2,
+                    date: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).getTime() / 1000,
+                    text: '🐾 Советы от нашего ветеринара: Как подготовить питомца к зиме?\n\n1. Утеплите место для сна\n2. Увеличьте калорийность рациона\n3. Проверьте лапы после прогулок\n4. Избегайте прогулок в сильные морозы\n\nБерегите своих любимцев!',
+                    attachments: [],
+                    likes: { count: 67 },
+                    reposts: { count: 15 },
+                    views: { count: 234 },
+                    category: 'tips'
+                },
+                {
+                    id: 3,
+                    date: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).getTime() / 1000,
+                    text: '🏥 Рады сообщить, что в нашу команду присоединился новый специалист - врач-офтальмолог Анна Сергеевна! Теперь мы можем проводить полную диагностику и лечение глазных заболеваний у животных.',
+                    attachments: [],
+                    likes: { count: 89 },
+                    reposts: { count: 12 },
+                    views: { count: 321 },
+                    category: 'news'
+                },
+                {
+                    id: 4,
+                    date: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).getTime() / 1000,
+                    text: '📚 Полезная статья: "Питание пожилых собак - что нужно знать"\n\nС возрастом у собак меняются потребности в питании. Рассказываем, как правильно подобрать рацион для питомца старше 7 лет.',
+                    attachments: [],
+                    likes: { count: 54 },
+                    reposts: { count: 9 },
+                    views: { count: 187 },
+                    category: 'articles'
+                },
+                {
+                    id: 5,
+                    date: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000).getTime() / 1000,
+                    text: '🎄 Готовимся к Новому году! Напоминаем, что праздничные салюты и фейерверки могут вызывать сильный стресс у животных. Рекомендуем:\n- Заранее подготовить безопасное укрытие\n- Использовать феромоны для кошек\n- Проконсультироваться с врачом о седативных средствах',
+                    attachments: [],
+                    likes: { count: 78 },
+                    reposts: { count: 22 },
+                    views: { count: 289 },
+                    category: 'tips'
+                },
+                {
+                    id: 6,
+                    date: new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).getTime() / 1000,
+                    text: '🩺 Важная информация о вакцинации!\n\nПомните, что ежегодная вакцинация - лучшая защита для вашего питомца. Мы используем только проверенные вакцины европейского производства.',
+                    attachments: [],
+                    likes: { count: 63 },
+                    reposts: { count: 11 },
+                    views: { count: 245 },
+                    category: 'articles'
+                },
+                {
+                    id: 7,
+                    date: new Date(Date.now() - 20 * 24 * 60 * 60 * 1000).getTime() / 1000,
+                    text: '🐶 Истории успеха: Барсик, 5 лет\n\nБарсик поступил к нам с тяжелой травмой позвоночника. После курса лечения и реабилитации он снова может бегать и играть! Спасибо нашей команде хирургов за профессионализм!',
+                    attachments: [],
+                    likes: { count: 112 },
+                    reposts: { count: 34 },
+                    views: { count: 432 },
+                    category: 'news'
+                },
+                {
+                    id: 8,
+                    date: new Date(Date.now() - 25 * 24 * 60 * 60 * 1000).getTime() / 1000,
+                    text: '🐱 Кошачий грипп: симптомы и профилактика\n\nРассказываем о признаках респираторных инфекций у кошек и мерах профилактики. Не забывайте о регулярных осмотрах у ветеринара!',
+                    attachments: [],
+                    likes: { count: 47 },
+                    reposts: { count: 7 },
+                    views: { count: 176 },
+                    category: 'articles'
+                }
+            ];
+            
+            vkPosts = demoPosts;
+            renderPosts();
+        }
+        
+        // Рендеринг постов
+        function renderPosts(filter = 'all') {
+            const blogGrid = document.getElementById('blogGrid');
+            
+            // Фильтрация постов
+            let filteredPosts = vkPosts;
+            if (filter !== 'all') {
+                filteredPosts = vkPosts.filter(post => post.category === filter);
+            }
+            
+            // Отображение постов
+            if (filteredPosts.length === 0) {
+                blogGrid.innerHTML = '<div class="no-posts"><p>Нет постов в этой категории</p></div>';
+                return;
+            }
+            
+            // Показываем только необходимое количество постов
+            const postsToShow = filteredPosts.slice(0, currentPostCount);
+            
+            blogGrid.innerHTML = postsToShow.map(post => createPostHTML(post)).join('');
+            
+            // Показываем/скрываем кнопку "Загрузить еще"
+            const loadMoreBtn = document.getElementById('loadMorePosts');
+            if (currentPostCount >= filteredPosts.length) {
+                loadMoreBtn.style.display = 'none';
+            } else {
+                loadMoreBtn.style.display = 'inline-flex';
+            }
+        }
+        
+        // Создание HTML для поста
+        function createPostHTML(post) {
+            const date = new Date(post.date * 1000);
+            const formattedDate = date.toLocaleDateString('ru-RU', {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric'
+            });
+            
+            // Определяем категорию
+            let categoryText = 'Новости';
+            if (post.category === 'articles') categoryText = 'Статьи';
+            if (post.category === 'tips') categoryText = 'Советы';
+            
+            // Обрабатываем текст поста (заменяем переносы строк)
+            const processedText = post.text.replace(/\n/g, '<br>');
+            
+            return `
+                <div class="blog-post fade-in" data-category="${post.category}">
+                    <div class="blog-post-content">
+                        <div class="blog-post-meta">
+                            <div class="blog-post-date">📅 ${formattedDate}</div>
+                            <div class="blog-post-category">${categoryText}</div>
+                        </div>
+                        <h3 class="blog-post-title">${post.text.split('\n')[0].substring(0, 80)}${post.text.split('\n')[0].length > 80 ? '...' : ''}</h3>
+                        <div class="blog-post-text">
+                            ${processedText}
+                        </div>
+                        <div class="blog-post-footer">
+                            <div class="blog-post-stats">
+                                <div class="blog-post-stat">❤️ ${post.likes.count}</div>
+                                <div class="blog-post-stat">↪️ ${post.reposts.count}</div>
+                                <div class="blog-post-stat">👁️ ${post.views.count}</div>
+                            </div>
+                            <a href="https://vk.com/club${VK_GROUP_ID}" target="_blank" class="blog-post-link">
+                                Читать в ВК →
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        
+        // Инициализация системы блога
+        function initBlogSystem() {
+            // Загружаем посты при загрузке страницы
+            fetchVKPosts();
+            
+            // Фильтрация постов
+            document.querySelectorAll('.blog-filter-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.blog-filter-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    
+                    const filter = btn.getAttribute('data-filter');
+                    currentPostCount = postsPerPage;
+                    renderPosts(filter);
+                });
+            });
+            
+            // Кнопка "Загрузить еще"
+            document.getElementById('loadMorePosts').addEventListener('click', () => {
+                currentPostCount += postsPerPage;
+                const activeFilter = document.querySelector('.blog-filter-btn.active').getAttribute('data-filter');
+                renderPosts(activeFilter);
+            });
+        }
+        
+        // ==================== ОСТАЛЬНОЙ КОД (не изменялся) ====================
+        
+        // Данные для услуг
+        const servicesData = {
+            primary: {
+                title: "Первичный осмотр",
+                description: "Комплексное обследование вашего питомца опытным ветеринаром с полной диагностикой состояния здоровья. Включает в себя общий осмотр, измерение температуры, проверку состояния кожи и шерсти, осмотр ушей, глаз и ротовой полости.",
+                details: [
+                    "Общий осмотр и консультация - 1500 ₽",
+                    "Измерение температуры, пульса, дыхания - 300 ₽",
+                    "Осмотр ушей, глаз, ротовой полости - 500 ₽",
+                    "Пальпация брюшной полости - 400 ₽",
+                    "Аускультация сердца и легких - 600 ₽"
+                ],
+                total: "от 1500 ₽"
+            },
+            vaccination: {
+                title: "Вакцинация",
+                description: "Профилактические прививки для защиты от опасных заболеваний по международным протоколам. Мы используем только качественные вакцины ведущих производителей и соблюдаем все правила хранения и введения препаратов.",
+                details: [
+                    "Комплексная вакцина для собак (Nobivac) - 1200 ₽",
+                    "Комплексная вакцина для кошек (Purevax) - 1100 ₽",
+                    "Вакцина от бешенства - 800 ₽",
+                    "Вакцина от лишая - 900 ₽",
+                    "Вакцина от лептоспироза - 700 ₽"
+                ],
+                total: "от 800 ₽"
+            },
+            dentistry: {
+                title: "Стоматология",
+                description: "Профессиональная чистка зубов, лечение и удаление, профилактика стоматологических заболеваний. Наша клиника оснащена современным стоматологическим оборудованием, включая ультразвуковой скалер и рентген-аппарат.",
+                details: [
+                    "Профессиональная чистка зубов - 2500 ₽",
+                    "Лечение кариеса - от 1500 ₽",
+                    "Удаление зубов - от 1000 ₽",
+                    "Лечение пародонтита - от 2000 ₽",
+                    "Рентген зубов - 800 ₽"
+                ],
+                total: "от 2500 ₽"
+            },
+            diagnostics: {
+                title: "Диагностика",
+                description: "УЗИ, рентгеновское исследование, лабораторные анализы на современном оборудовании. Наша диагностическая лаборатория позволяет быстро и точно поставить диагноз и назначить эффективное лечение.",
+                details: [
+                    "УЗИ брюшной полости - 2000 ₽",
+                    "Рентгенологическое исследование - 1500 ₽",
+                    "Общий анализ крови - 800 ₽",
+                    "Биохимический анализ крови - 1200 ₽",
+                    "Анализ мочи - 500 ₽"
+                ],
+                total: "от 2000 ₽"
+            },
+            surgery: {
+                title: "Хирургия",
+                description: "Стерильные операции под анестезией с использованием современного оборудования и материалов. Наши хирурги имеют многолетний опыт проведения различных операций, от простых до сложных.",
+                details: [
+                    "Стерилизация кошки - 5000 ₽",
+                    "Кастрация кота - 3000 ₽",
+                    "Стерилизация собаки - от 7000 ₽",
+                    "Кастрация собаки - от 5000 ₽",
+                    "Удаление опухолей - от 8000 ₽"
+                ],
+                total: "от 5000 ₽"
+            },
+            grooming: {
+                title: "Груминг",
+                description: "Профессиональный уход за шерстью, когтями и кожей вашего питомца с использованием гипоаллергенных средств. Наши грумеры не только приведут в порядок внешний вид вашего питомца, но и проверят его на наличие кожных проблем.",
+                details: [
+                    "Стрижка собак мелких пород - 1200 ₽",
+                    "Стрижка собак средних пород - 1800 ₽",
+                    "Стрижка собак крупных пород - 2500 ₽",
+                    "Стрижка кошек - 1500 ₽",
+                    "Комплексный уход (стрижка, купание, стрижка когтей) - от 2000 ₽"
+                ],
+                total: "от 1200 ₽"
+            }
+        };
+
+        // Данные для врачей (расширяем существующие)
+        const doctorsData = {
+            elena: {
+                name: "Елена Петрова",
+                position: "Главный врач, терапевт",
+                experience: "12 лет",
+                education: "Московская государственная академия ветеринарной медицины и биотехнологии им. К.И. Скрябина, специальность 'Ветеринария'",
+                specialization: "Терапия, диагностика внутренних болезней, гастроэнтерология",
+                achievements: [
+                    "Сертификат Европейской ассоциации ветеринаров (FECAVA)",
+                    "Участник международных конференций по ветеринарной терапии",
+                    "Автор научных статей по лечению заболеваний ЖКТ у животных"
+                ],
+                description: "Специализируется на терапии, диагностике и лечении внутренних болезней. Постоянно повышает квалификацию на международных конференциях.",
+                available: true
+            },
+            ivan: {
+                name: "Иван Сидоров",
+                position: "Хирург, ортопед",
+                experience: "9 лет",
+                education: "Санкт-Петербургская государственная академия ветеринарной медицины, специальность 'Ветеринарная хирургия'",
+                specialization: "Общая хирургия, ортопедия, травматология, малоинвазивная хирургия",
+                achievements: [
+                    "Сертификат по артроскопической хирургии (Германия)",
+                    "Член Российского общества ветеринарных хирургов",
+                    "Провел более 1000 успешных операций"
+                ],
+                description: "Проводит сложные хирургические операции, включая ортопедические. Владеет техникой малоинвазивной хирургии.",
+                available: true
+            },
+            anna: {
+                name: "Анна Волкова",
+                position: "Стоматолог, дерматолог",
+                experience: "7 лет",
+                education: "Казанская государственная академия ветеринарной медицины, специальность 'Ветеринарная стоматология и дерматология'",
+                specialization: "Стоматология, дерматология, аллергология",
+                achievements: [
+                    "Стажировка в Европейской ветеринарной клинике (Италия)",
+                    "Сертификат по ветеринарной дерматологии (ESVD)",
+                    "Член Европейского общества ветеринарных дерматологов"
+                ],
+                description: "Специалист по стоматологическим и кожным заболеваниям. Прошла стажировку в европейской ветеринарной клинике.",
+                available: true
+            },
+            sergey: {
+                name: "Сергей Орлов",
+                position: "УЗИ диагност, рентгенолог",
+                experience: "10 лет",
+                education: "Новосибирский государственный аграрный университет, специальность 'Ветеринарная диагностика'",
+                specialization: "Ультразвуковая диагностика, рентгенология, компьютерная томография",
+                achievements: [
+                    "Сертификат по ультразвуковой диагностике (ARDMS)",
+                    "Член Ассоциации ветеринарных радиологов России",
+                    "Прошел курсы по МРТ-диагностике в Венском университете"
+                ],
+                description: "Проводит ультразвуковые и рентгенологические исследования. Эксперт в области визуальной диагностики.",
+                available: true
+            }
+        };
+
+        // Пользовательская панель - новый код
+        const userToggle = document.getElementById('userToggle');
+        const userPanel = document.getElementById('userPanel');
+        const closeUser = document.getElementById('closeUser');
+        const authTabs = document.querySelectorAll('.auth-tab');
+        const authContents = document.querySelectorAll('.auth-content');
+        const userLoginBtn = document.getElementById('userLoginBtn');
+        const userRegisterBtn = document.getElementById('userRegisterBtn');
+        const userLogoutBtn = document.getElementById('userLogoutBtn');
+        const authSection = document.getElementById('authSection');
+        const userInfoSection = document.getElementById('userInfoSection');
+        const userLoginMessage = document.getElementById('userLoginMessage');
+        const userRegisterMessage = document.getElementById('userRegisterMessage');
+        
+        // Инициализация данных пользователей
+        let users = JSON.parse(localStorage.getItem('vetUsers')) || [];
+        let currentUser = JSON.parse(localStorage.getItem('currentUser')) || null;
+        
+        // Проверяем авторизацию при загрузке
+        if (currentUser) {
+            showUserInfo();
+        }
+        
+        // Открытие/закрытие пользовательской панели
+        userToggle.addEventListener('click', () => {
+            userPanel.classList.add('active');
+        });
+        
+        closeUser.addEventListener('click', () => {
+            userPanel.classList.remove('active');
+        });
+        
+        // Переключение вкладок входа/регистрации
+        authTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const authType = tab.getAttribute('data-auth');
+                
+                authTabs.forEach(t => t.classList.remove('active'));
+                authContents.forEach(c => c.classList.remove('active'));
+                
+                tab.classList.add('active');
+                document.getElementById(`${authType}ContentUser`).classList.add('active');
+            });
+        });
+        
+        // Вход пользователя
+        userLoginBtn.addEventListener('click', () => {
+            const email = document.getElementById('userEmailLogin').value;
+            const password = document.getElementById('userPasswordLogin').value;
+            
+            const user = users.find(u => u.email === email && u.password === password);
+            
+            if (user) {
+                currentUser = user;
+                localStorage.setItem('currentUser', JSON.stringify(user));
+                userLoginMessage.textContent = 'Успешный вход!';
+                userLoginMessage.style.color = 'var(--success-color)';
+                showUserInfo();
+            } else {
+                userLoginMessage.textContent = 'Неверный email или пароль!';
+                userLoginMessage.style.color = '#e74c3c';
+            }
+        });
+        
+        // Регистрация пользователя
+        userRegisterBtn.addEventListener('click', () => {
+            const name = document.getElementById('userNameRegister').value;
+            const email = document.getElementById('userEmailRegister').value;
+            const phone = document.getElementById('userPhoneRegister').value;
+            const password = document.getElementById('userPasswordRegister').value;
+            const passwordConfirm = document.getElementById('userPasswordConfirm').value;
+            
+            // Валидация
+            if (!name || !email || !phone || !password) {
+                userRegisterMessage.textContent = 'Все поля обязательны для заполнения!';
+                userRegisterMessage.style.color = '#e74c3c';
+                return;
+            }
+            
+            if (password !== passwordConfirm) {
+                userRegisterMessage.textContent = 'Пароли не совпадают!';
+                userRegisterMessage.style.color = '#e74c3c';
+                return;
+            }
+            
+            if (users.find(u => u.email === email)) {
+                userRegisterMessage.textContent = 'Пользователь с таким email уже существует!';
+                userRegisterMessage.style.color = '#e74c3c';
+                return;
+            }
+            
+            const newUser = {
+                id: Date.now(),
+                name,
+                email,
+                phone,
+                password,
+                registrationDate: new Date().toISOString(),
+                appointments: [],
+                orders: []
+            };
+            
+            users.push(newUser);
+            localStorage.setItem('vetUsers', JSON.stringify(users));
+            
+            currentUser = newUser;
+            localStorage.setItem('currentUser', JSON.stringify(newUser));
+            
+            userRegisterMessage.textContent = 'Регистрация успешна!';
+            userRegisterMessage.style.color = 'var(--success-color)';
+            
+            setTimeout(() => {
+                showUserInfo();
+            }, 1000);
+        });
+        
+        // Выход пользователя
+        userLogoutBtn.addEventListener('click', () => {
+            currentUser = null;
+            localStorage.removeItem('currentUser');
+            authSection.style.display = 'block';
+            userInfoSection.style.display = 'none';
+            
+            // Сбрасываем формы
+            document.getElementById('userEmailLogin').value = '';
+            document.getElementById('userPasswordLogin').value = '';
+            document.getElementById('userNameRegister').value = '';
+            document.getElementById('userEmailRegister').value = '';
+            document.getElementById('userPhoneRegister').value = '';
+            document.getElementById('userPasswordRegister').value = '';
+            document.getElementById('userPasswordConfirm').value = '';
+            
+            userLoginMessage.textContent = '';
+            userRegisterMessage.textContent = '';
+        });
+        
+        // Показать информацию пользователя
+        function showUserInfo() {
+            authSection.style.display = 'none';
+            userInfoSection.style.display = 'block';
+            
+            document.getElementById('userNameDisplay').textContent = currentUser.name;
+            document.getElementById('userEmailDisplay').textContent = currentUser.email;
+            
+            // Показываем первую букву имени в аватаре
+            const firstLetter = currentUser.name.charAt(0).toUpperCase();
+            document.getElementById('userAvatar').textContent = firstLetter;
+            
+            loadUserData();
+        }
+        
+        // Загрузка данных пользователя
+        function loadUserData() {
+            if (!currentUser) return;
+            
+            // Загружаем актуальные данные пользователя
+            const userIndex = users.findIndex(u => u.id === currentUser.id);
+            if (userIndex !== -1) {
+                currentUser = users[userIndex];
+            }
+            
+            // Показываем записи на приём
+            const userAppointmentsList = document.getElementById('userAppointmentsList');
+            userAppointmentsList.innerHTML = '';
+            
+            if (currentUser.appointments && currentUser.appointments.length > 0) {
+                currentUser.appointments.forEach(appointment => {
+                    const appointmentItem = document.createElement('div');
+                    appointmentItem.className = 'admin-item';
+                    appointmentItem.innerHTML = `
+                        <div class="admin-item-header">
+                            <div class="admin-item-title">${appointment.service}</div>
+                            <div class="admin-item-date">${new Date(appointment.date).toLocaleDateString('ru-RU')}</div>
+                        </div>
+                        <div class="admin-item-details">
+                            <p><strong>Врач:</strong> ${appointment.doctor || 'Не назначен'}</p>
+                            <p><strong>Питомцы:</strong> ${appointment.pets}</p>
+                            <p><strong>Сообщение:</strong> ${appointment.message}</p>
+                            <p><strong>Статус:</strong> ${appointment.status || 'Ожидает подтверждения'}</p>
+                        </div>
+                    `;
+                    userAppointmentsList.appendChild(appointmentItem);
+                });
+            } else {
+                userAppointmentsList.innerHTML = '<div class="no-data">У вас нет записей на приём</div>';
+            }
+            
+            // Показываем заказы
+            const userOrdersList = document.getElementById('userOrdersList');
+            userOrdersList.innerHTML = '';
+            
+            if (currentUser.orders && currentUser.orders.length > 0) {
+                currentUser.orders.forEach(order => {
+                    const orderItem = document.createElement('div');
+                    orderItem.className = 'admin-item';
+                    orderItem.innerHTML = `
+                        <div class="admin-item-header">
+                            <div class="admin-item-title">Заказ #${order.id}</div>
+                            <div class="admin-item-date">${new Date(order.date).toLocaleDateString('ru-RU')}</div>
+                        </div>
+                        <div class="admin-item-details">
+                            <p><strong>Товары:</strong></p>
+                            <ul>
+                                ${order.items.map(item => `<li>${item.name} (${item.quantity} шт.) - ${item.price * item.quantity} ₽</li>`).join('')}
+                            </ul>
+                            <p><strong>Общая сумма:</strong> ${order.total} ₽</p>
+                            <p><strong>Статус:</strong> ${order.status || 'Обрабатывается'}</p>
+                        </div>
+                    `;
+                    userOrdersList.appendChild(orderItem);
+                });
+            } else {
+                userOrdersList.innerHTML = '<div class="no-data">У вас нет заказов</div>';
+            }
+        }
+        
+        // Обновляем функцию сохранения заказа, чтобы привязывать к пользователю
+        function saveOrderToUser(order) {
+            if (currentUser) {
+                const userIndex = users.findIndex(u => u.id === currentUser.id);
+                if (userIndex !== -1) {
+                    if (!users[userIndex].orders) {
+                        users[userIndex].orders = [];
+                    }
+                    users[userIndex].orders.push({
+                        id: Date.now(),
+                        ...order,
+                        status: 'Обрабатывается'
+                    });
+                    localStorage.setItem('vetUsers', JSON.stringify(users));
+                    
+                    // Обновляем текущего пользователя
+                    if (currentUser.id === users[userIndex].id) {
+                        currentUser = users[userIndex];
+                        localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                    }
+                }
+            }
+        }
+        
+        // Обновляем функцию сохранения заявки, чтобы привязывать к пользователю
+        function saveAppointmentToUser(appointment) {
+            if (currentUser) {
+                const userIndex = users.findIndex(u => u.id === currentUser.id);
+                if (userIndex !== -1) {
+                    if (!users[userIndex].appointments) {
+                        users[userIndex].appointments = [];
+                    }
+                    users[userIndex].appointments.push({
+                        ...appointment,
+                        status: 'Ожидает подтверждения'
+                    });
+                    localStorage.setItem('vetUsers', JSON.stringify(users));
+                    
+                    // Обновляем текущего пользователя
+                    if (currentUser.id === users[userIndex].id) {
+                        currentUser = users[userIndex];
+                        localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                    }
+                }
+            }
+        }
+
+        // Панель администратора
+        const adminToggle = document.getElementById('adminToggle');
+        const adminPanel = document.getElementById('adminPanel');
+        const closeAdmin = document.getElementById('closeAdmin');
+        const adminTabs = document.querySelectorAll('.admin-tab');
+        const adminContents = document.querySelectorAll('.admin-content');
+        const adminLoginBtn = document.getElementById('adminLoginBtn');
+        const adminMessage = document.getElementById('adminMessage');
+        const adminLogoutBtn = document.getElementById('adminLogoutBtn');
+        const adminLogoutSection = document.getElementById('adminLogoutSection');
+        const vkTabAdmin = document.getElementById('vkTabAdmin');
+        const goToVkButton = document.getElementById('goToVkButton');
+        
+        let isAdminLoggedIn = false;
+        
+        // Инициализация данных из localStorage
+        let appointments = JSON.parse(localStorage.getItem('vetAppointments')) || [];
+        let orders = JSON.parse(localStorage.getItem('vetOrders')) || [];
+        
+        // Функция для сохранения данных
+        function saveAppointments() {
+            localStorage.setItem('vetAppointments', JSON.stringify(appointments));
+        }
+        
+        function saveOrders() {
+            localStorage.setItem('vetOrders', JSON.stringify(orders));
+        }
+        
+        // Открытие/закрытие панели администратора
+        adminToggle.addEventListener('click', () => {
+            adminPanel.classList.add('active');
+        });
+        
+        closeAdmin.addEventListener('click', () => {
+            adminPanel.classList.remove('active');
+        });
+        
+        // Переключение вкладок в панели администратора
+        adminTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const tabName = tab.getAttribute('data-tab');
+                
+                adminTabs.forEach(t => t.classList.remove('active'));
+                adminContents.forEach(c => c.classList.remove('active'));
+                
+                tab.classList.add('active');
+                const content = document.getElementById(`${tabName}Content`);
+                if (content) content.classList.add('active');
+                
+                // При переключении на вкладки с данными - обновляем их
+                if (isAdminLoggedIn && (tabName === 'appointments' || tabName === 'orders' || tabName === 'users')) {
+                    loadAdminData();
+                }
+            });
+        });
+        
+        // Вход администратора
+        adminLoginBtn.addEventListener('click', () => {
+            const login = document.getElementById('adminLogin').value;
+            const password = document.getElementById('adminPassword').value;
+            
+            if (login === 'admin' && password === 'admin123') {
+                isAdminLoggedIn = true;
+                adminMessage.textContent = 'Успешный вход!';
+                adminMessage.style.color = 'var(--success-color)';
+                adminLogoutSection.style.display = 'block';
+                // Показываем вкладку VK
+                if (vkTabAdmin) vkTabAdmin.style.display = 'block';
+                loadAdminData();
+                // Переключаем на вкладку заявок после входа
+                adminTabs.forEach(t => t.classList.remove('active'));
+                adminContents.forEach(c => c.classList.remove('active'));
+                document.querySelector('.admin-tab[data-tab="appointments"]').classList.add('active');
+                document.getElementById('appointmentsContent').classList.add('active');
+            } else {
+                adminMessage.textContent = 'Неверный логин или пароль!';
+                adminMessage.style.color = '#e74c3c';
+            }
+        });
+        
+        // Выход из администратора
+        adminLogoutBtn.addEventListener('click', () => {
+            isAdminLoggedIn = false;
+            adminMessage.textContent = '';
+            adminLogoutSection.style.display = 'none';
+            if (vkTabAdmin) vkTabAdmin.style.display = 'none';
+            document.getElementById('adminLogin').value = '';
+            document.getElementById('adminPassword').value = '';
+            
+            // Переключение на вкладку входа
+            adminTabs.forEach(t => t.classList.remove('active'));
+            adminContents.forEach(c => c.classList.remove('active'));
+            document.querySelector('.admin-tab[data-tab="login"]').classList.add('active');
+            document.getElementById('loginContent').classList.add('active');
+        });
+        
+        // Обработчик кнопки VK: переход по ссылке только если админ авторизован
+        if (goToVkButton) {
+            goToVkButton.addEventListener('click', () => {
+                if (isAdminLoggedIn) {
+                    window.location.href = 'VK.html';
+                } else {
+                    alert('Доступ только для администратора. Войдите в панель администратора.');
+                }
+            });
+        }
+        
+        // Загрузка данных для администратора
+        function loadAdminData() {
+            if (!isAdminLoggedIn) return;
+            
+            // Обновляем данные из localStorage
+            appointments = JSON.parse(localStorage.getItem('vetAppointments')) || [];
+            orders = JSON.parse(localStorage.getItem('vetOrders')) || [];
+            users = JSON.parse(localStorage.getItem('vetUsers')) || [];
+            
+            // Загрузка заявок на приём
+            const appointmentsList = document.getElementById('appointmentsList');
+            appointmentsList.innerHTML = '';
+            
+            if (appointments.length === 0) {
+                appointmentsList.innerHTML = '<p>Нет заявок на приём</p>';
+            } else {
+                appointments.forEach((appointment, index) => {
+                    const appointmentItem = document.createElement('div');
+                    appointmentItem.className = 'admin-item';
+                    appointmentItem.innerHTML = `
+                        <div class="admin-item-header">
+                            <div class="admin-item-title">${appointment.name}</div>
+                            <div class="admin-item-date">${new Date(appointment.date).toLocaleDateString('ru-RU')} ${new Date(appointment.date).toLocaleTimeString('ru-RU')}</div>
+                        </div>
+                        <div class="admin-item-details">
+                            <p><strong>Телефон:</strong> ${appointment.phone}</p>
+                            <p><strong>Email:</strong> ${appointment.email || 'Не указан'}</p>
+                            <p><strong>Услуга:</strong> ${appointment.service}</p>
+                            <p><strong>Питомцы:</strong> ${appointment.pets}</p>
+                            <p><strong>Сообщение:</strong> ${appointment.message}</p>
+                            <div class="doctor-select">
+                                <label><strong>Назначить врача:</strong></label>
+                                <select id="doctorSelect_${index}" class="doctor-select">
+                                    <option value="">Не назначен</option>
+                                    <option value="elena" ${appointment.doctor === 'elena' ? 'selected' : ''}>Елена Петрова (Терапевт)</option>
+                                    <option value="ivan" ${appointment.doctor === 'ivan' ? 'selected' : ''}>Иван Сидоров (Хирург)</option>
+                                    <option value="anna" ${appointment.doctor === 'anna' ? 'selected' : ''}>Анна Волкова (Стоматолог)</option>
+                                    <option value="sergey" ${appointment.doctor === 'sergey' ? 'selected' : ''}>Сергей Орлов (Диагност)</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="admin-item-actions">
+                            <button class="admin-btn primary" onclick="saveAppointmentDoctor(${index})">Сохранить врача</button>
+                            <button class="admin-btn primary" onclick="markAppointmentCompleted(${index})">Выполнено</button>
+                            <button class="admin-btn danger" onclick="deleteAppointment(${index})">Удалить</button>
+                        </div>
+                    `;
+                    appointmentsList.appendChild(appointmentItem);
+                });
+            }
+            
+            // Загрузка заказов товаров
+            const ordersList = document.getElementById('ordersList');
+            ordersList.innerHTML = '';
+            
+            if (orders.length === 0) {
+                ordersList.innerHTML = '<p>Нет заказов товаров</p>';
+            } else {
+                orders.forEach((order, index) => {
+                    const orderItem = document.createElement('div');
+                    orderItem.className = 'admin-item';
+                    orderItem.innerHTML = `
+                        <div class="admin-item-header">
+                            <div class="admin-item-title">${order.name}</div>
+                            <div class="admin-item-date">${new Date(order.date).toLocaleDateString('ru-RU')} ${new Date(order.date).toLocaleTimeString('ru-RU')}</div>
+                        </div>
+                        <div class="admin-item-details">
+                            <p><strong>Телефон:</strong> ${order.phone}</p>
+                            <p><strong>Email:</strong> ${order.email || 'Не указан'}</p>
+                            <p><strong>Товары:</strong></p>
+                            <ul>
+                                ${order.items.map(item => `<li>${item.name} (${item.quantity} шт.) - ${item.price * item.quantity} ₽</li>`).join('')}
+                            </ul>
+                            <p><strong>Общая сумма:</strong> ${order.total} ₽</p>
+                            <p><strong>Адрес доставки:</strong> ${order.address || 'Не указан'}</p>
+                            <p><strong>Комментарий:</strong> ${order.comment || 'Нет'}</p>
+                        </div>
+                        <div class="admin-item-actions">
+                            <button class="admin-btn primary" onclick="markOrderCompleted(${index})">Выполнено</button>
+                            <button class="admin-btn danger" onclick="deleteOrder(${index})">Удалить</button>
+                        </div>
+                    `;
+                    ordersList.appendChild(orderItem);
+                });
+            }
+            
+            // Загрузка пользователей
+            const usersList = document.getElementById('usersList');
+            usersList.innerHTML = '';
+            
+            if (users.length === 0) {
+                usersList.innerHTML = '<p>Нет зарегистрированных пользователей</p>';
+            } else {
+                users.forEach((user, index) => {
+                    const userItem = document.createElement('div');
+                    userItem.className = 'admin-item';
+                    userItem.innerHTML = `
+                        <div class="admin-item-header">
+                            <div class="admin-item-title">${user.name}</div>
+                            <div class="admin-item-date">Зарегистрирован: ${new Date(user.registrationDate).toLocaleDateString('ru-RU')}</div>
+                        </div>
+                        <div class="admin-item-details">
+                            <p><strong>Email:</strong> ${user.email}</p>
+                            <p><strong>Телефон:</strong> ${user.phone}</p>
+                            <p><strong>Записей на приём:</strong> ${user.appointments ? user.appointments.length : 0}</p>
+                            <p><strong>Заказов товаров:</strong> ${user.orders ? user.orders.length : 0}</p>
+                        </div>
+                        <div class="admin-item-actions">
+                            <button class="admin-btn danger" onclick="deleteUser(${index})">Удалить</button>
+                        </div>
+                    `;
+                    usersList.appendChild(userItem);
+                });
+            }
+        }
+        
+        // Функция для сохранения выбранного врача
+        window.saveAppointmentDoctor = function(index) {
+            const doctorSelect = document.getElementById(`doctorSelect_${index}`);
+            const doctorValue = doctorSelect.value;
+            
+            if (doctorValue) {
+                appointments[index].doctor = doctorValue;
+                saveAppointments();
+                
+                // Обновляем у пользователя, если он зарегистрирован
+                const appointment = appointments[index];
+                if (appointment.userId) {
+                    const userIndex = users.findIndex(u => u.id === appointment.userId);
+                    if (userIndex !== -1 && users[userIndex].appointments) {
+                        const userAppointmentIndex = users[userIndex].appointments.findIndex(a => 
+                            a.date === appointment.date && a.service === appointment.service
+                        );
+                        if (userAppointmentIndex !== -1) {
+                            users[userIndex].appointments[userAppointmentIndex].doctor = doctorValue;
+                            localStorage.setItem('vetUsers', JSON.stringify(users));
+                            
+                            // Если текущий пользователь - обновляем его данные
+                            if (currentUser && currentUser.id === appointment.userId) {
+                                currentUser = users[userIndex];
+                                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                                loadUserData();
+                            }
+                        }
+                    }
+                }
+                
+                alert('Врач успешно назначен!');
+            }
+        };
+        
+        // Функция для удаления пользователя
+        window.deleteUser = function(index) {
+            if (confirm('Вы уверены, что хотите удалить этого пользователя?')) {
+                users.splice(index, 1);
+                localStorage.setItem('vetUsers', JSON.stringify(users));
+                loadAdminData();
+            }
+        };
+
+        // Функции для работы с заявками и заказами (для администратора)
+        window.markAppointmentCompleted = function(index) {
+            appointments.splice(index, 1);
+            saveAppointments();
+            loadAdminData();
+        };
+        
+        window.deleteAppointment = function(index) {
+            if (confirm('Вы уверены, что хотите удалить эту заявку?')) {
+                appointments.splice(index, 1);
+                saveAppointments();
+                loadAdminData();
+            }
+        };
+        
+        window.markOrderCompleted = function(index) {
+            orders.splice(index, 1);
+            saveOrders();
+            loadAdminData();
+        };
+        
+        window.deleteOrder = function(index) {
+            if (confirm('Вы уверены, что хотите удалить этот заказ?')) {
+                orders.splice(index, 1);
+                saveOrders();
+                loadAdminData();
+            }
+        };
+
+        // Модальные окна для услуг и врачей
+        const serviceModal = document.getElementById('serviceModal');
+        const serviceModalTitle = document.getElementById('serviceModalTitle');
+        const serviceModalBody = document.getElementById('serviceModalBody');
+        const closeServiceModal = document.getElementById('closeServiceModal');
+        
+        const doctorModal = document.getElementById('doctorModal');
+        const doctorModalTitle = document.getElementById('doctorModalTitle');
+        const doctorModalBody = document.getElementById('doctorModalBody');
+        const closeDoctorModal = document.getElementById('closeDoctorModal');
+        
+        // Открытие модального окна услуги
+        document.querySelectorAll('.service-card').forEach(card => {
+            card.addEventListener('click', () => {
+                const service = card.getAttribute('data-service');
+                const serviceData = servicesData[service];
+                
+                serviceModalTitle.textContent = serviceData.title;
+                serviceModalBody.innerHTML = `
+                    <p>${serviceData.description}</p>
+                    <h4>Подробности и цены:</h4>
+                    <ul>
+                        ${serviceData.details.map(detail => `<li>${detail}</li>`).join('')}
+                    </ul>
+                    <div class="service-price" style="margin-top: 20px; font-size: 1.5rem;">${serviceData.total}</div>
+                `;
+                
+                serviceModal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            });
+        });
+        
+        // Открытие модального окна врача
+        document.querySelectorAll('.team-member').forEach(member => {
+            member.addEventListener('click', () => {
+                const doctor = member.getAttribute('data-doctor');
+                const doctorData = doctorsData[doctor];
+                
+                doctorModalTitle.textContent = doctorData.name;
+                doctorModalBody.innerHTML = `
+                    <div style="display: flex; gap: 20px; margin-bottom: 20px;">
+                        <div style="flex: 1;">
+                            <p><strong>Должность:</strong> ${doctorData.position}</p>
+                            <p><strong>Опыт работы:</strong> ${doctorData.experience}</p>
+                            <p><strong>Образование:</strong> ${doctorData.education}</p>
+                        </div>
+                    </div>
+                    <p><strong>Специализация:</strong> ${doctorData.specialization}</p>
+                    <h4>Достижения и сертификаты:</h4>
+                    <ul>
+                        ${doctorData.achievements.map(achievement => `<li>${achievement}</li>`).join('')}
+                    </ul>
+                    <p style="margin-top: 20px;">${doctorData.description}</p>
+                `;
+                
+                doctorModal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            });
+        });
+        
+        // Закрытие модальных окон
+        closeServiceModal.addEventListener('click', () => {
+            serviceModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        });
+        
+        closeDoctorModal.addEventListener('click', () => {
+            doctorModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        });
+        
+        // Закрытие модальных окон при клике вне их области
+        serviceModal.addEventListener('click', (e) => {
+            if (e.target === serviceModal) {
+                serviceModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        });
+        
+        doctorModal.addEventListener('click', (e) => {
+            if (e.target === doctorModal) {
+                doctorModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        // Корзина
+        let cart = [];
+        const cartIcon = document.getElementById('cartIcon');
+        const cartModal = document.getElementById('cartModal');
+        const closeCart = document.getElementById('closeCart');
+        const cartItems = document.getElementById('cartItems');
+        const cartCount = document.getElementById('cartCount');
+        const cartTotal = document.getElementById('cartTotal');
+        const checkoutBtn = document.getElementById('checkoutBtn');
+        const confirmOrderBtn = document.getElementById('confirmOrderBtn');
+        const cartContactForm = document.getElementById('cartContactForm');
+
+        // Подтверждение заказа
+        confirmOrderBtn.addEventListener('click', () => {
+            const name = document.getElementById('cartName').value;
+            const phone = document.getElementById('cartPhone').value;
+            const email = document.getElementById('cartEmail').value;
+            const address = document.getElementById('cartAddress').value;
+            const comment = document.getElementById('cartComment').value;
+            
+            // Валидация обязательных полей
+            if (!name.trim()) {
+                alert('Пожалуйста, введите ваше имя');
+                return;
+            }
+            
+            if (!phone.trim() || !/^\+7\s\(\d{3}\)\s\d{3}-\d{2}-\d{2}$/.test(phone)) {
+                alert('Пожалуйста, введите корректный номер телефона');
+                return;
+            }
+            
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const orderDetails = cart.map(item => 
+                `${item.name} (${item.quantity} шт.) - ${item.price * item.quantity} ₽`
+            ).join('\n');
+            
+            let message = `Заказ оформлен!\n\n${orderDetails}\n\nИтого: ${total} ₽\n\nКонтактные данные:\nИмя: ${name}\nТелефон: ${phone}`;
+            
+            if (email) message += `\nEmail: ${email}`;
+            if (address) message += `\nАдрес: ${address}`;
+            if (comment) message += `\nКомментарий: ${comment}`;
+            
+            message += '\n\nСпасибо за заказ! Мы свяжемся с вами для подтверждения.';
+            
+            alert(message);
+            
+            // Сохранение заказа для администратора
+            const order = {
+                name,
+                phone,
+                email,
+                address,
+                comment,
+                items: [...cart],
+                total,
+                date: new Date().toISOString(),
+                userId: currentUser ? currentUser.id : null
+            };
+            
+            orders.push(order);
+            saveOrders();
+            
+            // Сохраняем заказ у пользователя, если он авторизован
+            if (currentUser) {
+                saveOrderToUser(order);
+            }
+            
+            // Очистка корзины после оформления заказа
+            cart = [];
+            updateCart();
+            resetCartForm();
+            cartModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+            
+            // Если администратор авторизован, обновляем данные
+            if (isAdminLoggedIn) {
+                loadAdminData();
+            }
+            
+            // Обновляем данные пользователя
+            if (currentUser) {
+                loadUserData();
+            }
+        });
+
+        cartIcon.addEventListener('click', () => {
+            cartModal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        });
+
+        closeCart.addEventListener('click', () => {
+            cartModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+            resetCartForm();
+        });
+
+        cartModal.addEventListener('click', (e) => {
+            if (e.target === cartModal) {
+                cartModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+                resetCartForm();
+            }
+        });
+
+        document.querySelectorAll('.add-to-cart').forEach(button => {
+            button.addEventListener('click', (e) => {
+                const id = button.getAttribute('data-id');
+                const name = button.getAttribute('data-name');
+                const price = parseInt(button.getAttribute('data-price'));
+                const image = button.getAttribute('data-image');
+                
+                addToCart(id, name, price, image);
+                
+                button.textContent = '✓ Добавлено';
+                button.style.background = 'var(--success-color)';
+                setTimeout(() => {
+                    button.innerHTML = '🛒 В корзину';
+                    button.style.background = '';
+                }, 2000);
+            });
+        });
+
+        function addToCart(id, name, price, image) {
+            const existingItem = cart.find(item => item.id === id);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    id,
+                    name,
+                    price,
+                    image,
+                    quantity: 1
+                });
+            }
+            
+            updateCart();
+        }
+
+        function updateCart() {
+            cartItems.innerHTML = '';
+            let total = 0;
+            let count = 0;
+            
+            if (cart.length === 0) {
+                cartItems.innerHTML = '<div class="cart-empty">Корзина пуста</div>';
+                checkoutBtn.style.display = 'block';
+                confirmOrderBtn.style.display = 'none';
+                cartContactForm.style.display = 'none';
+            } else {
+                cart.forEach(item => {
+                    const itemTotal = item.price * item.quantity;
+                    total += itemTotal;
+                    count += item.quantity;
+                    
+                    const cartItem = document.createElement('div');
+                    cartItem.className = 'cart-item';
+                    cartItem.innerHTML = `
+                        <img src="${item.image}" alt="${item.name}" class="cart-item-image">
+                        <div class="cart-item-info">
+                            <div class="cart-item-title">${item.name}</div>
+                            <div class="cart-item-price">${item.price} ₽</div>
+                        </div>
+                        <div class="cart-item-controls">
+                            <button class="quantity-btn minus" data-id="${item.id}">-</button>
+                            <span class="cart-item-quantity">${item.quantity}</span>
+                            <button class="quantity-btn plus" data-id="${item.id}">+</button>
+                            <button class="remove-item" data-id="${item.id}">🗑️</button>
+                        </div>
+                    `;
+                    cartItems.appendChild(cartItem);
+                });
+                
+                document.querySelectorAll('.quantity-btn.minus').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const id = e.target.getAttribute('data-id');
+                        updateQuantity(id, -1);
+                    });
+                });
+                
+                document.querySelectorAll('.quantity-btn.plus').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const id = e.target.getAttribute('data-id');
+                        updateQuantity(id, 1);
+                    });
+                });
+                
+                document.querySelectorAll('.remove-item').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const id = e.target.getAttribute('data-id');
+                        removeFromCart(id);
+                    });
+                });
+            }
+            
+            cartCount.textContent = count;
+            cartTotal.textContent = `${total} ₽`;
+        }
+
+        function updateQuantity(id, change) {
+            const item = cart.find(item => item.id === id);
+            if (item) {
+                item.quantity += change;
+                
+                if (item.quantity <= 0) {
+                    removeFromCart(id);
+                } else {
+                    updateCart();
+                }
+            }
+        }
+
+        function removeFromCart(id) {
+            cart = cart.filter(item => item.id !== id);
+            updateCart();
+        }
+
+        const cartPhoneInput = document.getElementById('cartPhone');
+        cartPhoneInput.addEventListener('input', function(e) {
+            let x = e.target.value.replace(/\D/g, '').match(/(\d{0,1})(\d{0,3})(\d{0,3})(\d{0,2})(\d{0,2})/);
+            if (x) {
+                e.target.value = !x[2] ? x[1] : '+7 (' + x[2] + (x[3] ? ') ' + x[3] : '') + (x[4] ? '-' + x[4] : '') + (x[5] ? '-' + x[5] : '');
+            }
+        });
+
+        function resetCartForm() {
+            cartContactForm.style.display = 'none';
+            checkoutBtn.style.display = 'block';
+            confirmOrderBtn.style.display = 'none';
+            document.getElementById('cartName').value = '';
+            document.getElementById('cartPhone').value = '';
+            document.getElementById('cartEmail').value = '';
+            document.getElementById('cartAddress').value = '';
+            document.getElementById('cartComment').value = '';
+        }
+
+        checkoutBtn.addEventListener('click', () => {
+            if (cart.length === 0) {
+                alert('Корзина пуста!');
+                return;
+            }
+            
+            cartContactForm.style.display = 'block';
+            checkoutBtn.style.display = 'none';
+            confirmOrderBtn.style.display = 'block';
+            
+            cartContactForm.scrollIntoView({ behavior: 'smooth' });
+        });
+
+        // Функция для обработки формы записи
+        function handleSubmit(event) {
+            event.preventDefault();
+            const form = event.target;
+            const submitBtn = form.querySelector('.submit-btn');
+            const formData = new FormData(form);
+            
+            let isValid = true;
+            document.querySelectorAll('.contact-form input, .contact-form select, .contact-form textarea').forEach(field => {
+                if (!validateField(field)) isValid = false;
+            });
+            
+            const petCheckboxes = form.querySelectorAll('input[name="pet"]:checked');
+            if (petCheckboxes.length === 0) {
+                const petGroup = form.querySelector('.checkbox-group').closest('.form-group');
+                petGroup.classList.add('invalid');
+                petGroup.querySelector('.validation-message').textContent = 'Выберите хотя бы один вид питомца';
+                isValid = false;
+            }
+            
+            const agreementCheckbox = form.querySelector('input[name="agreement"]');
+            if (!agreementCheckbox.checked) {
+                const agreementGroup = agreementCheckbox.closest('.form-group');
+                agreementGroup.classList.add('invalid');
+                agreementGroup.querySelector('.validation-message').textContent = 'Необходимо ваше согласие';
+                isValid = false;
+            }
+            
+            if (!isValid) {
+                const firstInvalid = form.querySelector('.invalid');
+                if (firstInvalid) firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                return;
+            }
+            
+            submitBtn.classList.add('loading');
+            setTimeout(() => {
+                const data = {
+                    name: formData.get('name'),
+                    phone: formData.get('phone'),
+                    email: formData.get('email'),
+                    service: form.querySelector('#service option:checked').text,
+                    pets: Array.from(petCheckboxes).map(cb => {
+                        switch(cb.value) {
+                            case 'dog': return 'Собака';
+                            case 'cat': return 'Кошка';
+                            case 'other': return 'Другое';
+                            default: return cb.value;
+                        }
+                    }).join(', '),
+                    message: formData.get('message')
+                };
+                
+                let message = `Спасибо, ${data.name}! Мы свяжемся с вами по телефону ${data.phone} в ближайшее время.`;
+                if (data.email) message += ` Также мы отправим подтверждение на ${data.email}.`;
+                alert(message);
+                
+                // Сохранение заявки для администратора
+                const appointment = {
+                    name: data.name,
+                    phone: data.phone,
+                    email: data.email,
+                    service: data.service,
+                    pets: data.pets,
+                    message: data.message,
+                    date: new Date().toISOString(),
+                    userId: currentUser ? currentUser.id : null
+                };
+                
+                appointments.push(appointment);
+                saveAppointments();
+                
+                // Сохраняем заявку у пользователя, если он авторизован
+                if (currentUser) {
+                    saveAppointmentToUser(appointment);
+                }
+                
+                form.reset();
+                submitBtn.classList.remove('loading');
+                form.querySelectorAll('.form-group').forEach(group => {
+                    group.classList.remove('valid', 'invalid');
+                    group.querySelector('.validation-message').textContent = '';
+                });
+            }, 1500);
+        }
+
+        // Остальной JavaScript код
+        const phoneInput = document.getElementById('phone');
+        phoneInput.addEventListener('input', function(e) {
+            let x = e.target.value.replace(/\D/g, '').match(/(\d{0,1})(\d{0,3})(\d{0,3})(\d{0,2})(\d{0,2})/);
+            if (x) {
+                e.target.value = !x[2] ? x[1] : '+7 (' + x[2] + (x[3] ? ') ' + x[3] : '') + (x[4] ? '-' + x[4] : '') + (x[5] ? '-' + x[5] : '');
+            }
+        });
+        
+        function validateField(field) {
+            const formGroup = field.closest('.form-group');
+            const validationMessage = formGroup.querySelector('.validation-message');
+            formGroup.classList.remove('valid', 'invalid');
+            validationMessage.textContent = '';
+            
+            if (!field.value && !field.hasAttribute('required')) return true;
+            
+            if (field.hasAttribute('required') && !field.value) {
+                formGroup.classList.add('invalid');
+                validationMessage.textContent = 'Это поле обязательно для заполнения';
+                return false;
+            }
+            
+            if (field.type === 'email' && field.value) {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(field.value)) {
+                    formGroup.classList.add('invalid');
+                    validationMessage.textContent = 'Введите корректный email адрес';
+                    return false;
+                }
+            }
+            
+            if (field.type === 'tel' && field.value) {
+                const phoneRegex = /^\+7\s\(\d{3}\)\s\d{3}-\d{2}-\d{2}$/;
+                if (!phoneRegex.test(field.value)) {
+                    formGroup.classList.add('invalid');
+                    validationMessage.textContent = 'Введите номер в формате +7 (XXX) XXX-XX-XX';
+                    return false;
+                }
+            }
+            
+            formGroup.classList.add('valid');
+            return true;
+        }
+        
+        document.querySelectorAll('.contact-form input, .contact-form select, .contact-form textarea').forEach(field => {
+            field.addEventListener('blur', () => validateField(field));
+            field.addEventListener('input', () => {
+                const formGroup = field.closest('.form-group');
+                formGroup.classList.remove('valid', 'invalid');
+                formGroup.querySelector('.validation-message').textContent = '';
+            });
+        });
+        
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', e => {
+                e.preventDefault();
+                const target = document.querySelector(anchor.getAttribute('href'));
+                if (target) {
+                    const headerHeight = document.getElementById('header').offsetHeight;
+                    const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - headerHeight;
+                    window.scrollTo({ top: targetPosition, behavior: 'smooth' });
+                    document.getElementById('nav').classList.remove('active');
+                }
+            });
+        });
+        
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const nav = document.getElementById('nav');
+        mobileMenuBtn.addEventListener('click', () => {
+            nav.classList.toggle('active');
+            mobileMenuBtn.textContent = nav.classList.contains('active') ? '✕' : '☰';
+        });
+        
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('header');
+            if (window.scrollY > 100) header.classList.add('scrolled');
+            else header.classList.remove('scrolled');
+        });
+        
+        const testimonialsTrack = document.getElementById('testimonialsTrack');
+        const testimonialDots = document.querySelectorAll('.testimonial-dot');
+        let currentSlide = 0;
+        
+        function showSlide(index) {
+            testimonialsTrack.style.transform = `translateX(-${index * 100}%)`;
+            testimonialDots.forEach(dot => dot.classList.remove('active'));
+            testimonialDots[index].classList.add('active');
+            currentSlide = index;
+        }
+        
+        testimonialDots.forEach(dot => {
+            dot.addEventListener('click', () => {
+                const slideIndex = parseInt(dot.getAttribute('data-slide'));
+                showSlide(slideIndex);
+            });
+        });
+        
+        setInterval(() => {
+            let nextSlide = currentSlide + 1;
+            if (nextSlide >= testimonialDots.length) nextSlide = 0;
+            showSlide(nextSlide);
+        }, 5000);
+        
+        const faqItems = document.querySelectorAll('.faq-item');
+        faqItems.forEach(item => {
+            const question = item.querySelector('.faq-question');
+            question.addEventListener('click', () => {
+                faqItems.forEach(otherItem => {
+                    if (otherItem !== item) otherItem.classList.remove('active');
+                });
+                item.classList.toggle('active');
+            });
+        });
+        
+        const fadeElements = document.querySelectorAll('.fade-in');
+        const fadeInObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animation = 'fadeIn 1s ease forwards';
+                    fadeInObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+        fadeElements.forEach(element => { fadeInObserver.observe(element); });
+        
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('nav a');
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                const headerHeight = document.getElementById('header').offsetHeight;
+                if (scrollY >= (sectionTop - headerHeight - 100)) current = section.getAttribute('id');
+            });
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) link.classList.add('active');
+            });
+        });
+        
+        // Инициализация системы блога при загрузке страницы
+        document.addEventListener('DOMContentLoaded', () => {
+            initBlogSystem();
+        });
+    </script>
+</body>
+</html>
